@@ -22,6 +22,7 @@ namespace TextRPG
         public void MainMenu()
         {
             Utility utility = new Utility();
+            CharacterUtility characterUtility = new CharacterUtility();
             Console.WriteLine("Options:");
             utility.Options = new List<string>() { "New Game", "Load Game", "Quit" };
             utility.PrintInputOptions();
@@ -30,7 +31,7 @@ namespace TextRPG
             switch (input)
             {
                 case "New Game":
-                    Player = CharacterUtility.CreateCharacter();
+                    Player = characterUtility.CreateCharacter();
                     break;
                 case "Load Game":
                     try
@@ -48,7 +49,7 @@ namespace TextRPG
                         input = utility.GetInput();
                         if (input == "1")
                         {
-                            Player = CharacterUtility.CreateCharacter();
+                            Player = characterUtility.CreateCharacter();
                         }
                         else
                         {

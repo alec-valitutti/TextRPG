@@ -13,12 +13,12 @@ namespace TextRPG
     public class Player : IPlayer
     {
         public string Name { get; set; }
-        public string PlayerClass { get; set; } = "Human";
+        public string _PlayerClass { get; set; } = "Human";
         public int Hitpoints { get; set; }
         public int Level { get; set; } = 0;
         public float Experience { get; set; } = 0;
         public int LevelPoints { get; set; } = 0;
-        public Weapon CurrentWeapon { get; set; } = new Weapon("Nothing", 1);
+        public Weapon CurrentWeapon { get; set; } = new Weapon("Nothing", 1, Rarity.Common);
         public Armor CurrentHelmet { get; set; } = new Armor() { Name = "Nothing" };
         public Armor CurrentBody { get; set; } = new Armor() { Name = "Nothing" };
         public Armor CurrentLegs { get; set; } = new Armor() { Name = "Nothing" };
@@ -47,7 +47,8 @@ namespace TextRPG
         {
             Name = name;
             Hitpoints = 10;
-            PlayerClass = CharacterUtility.ChooseClass(this);
+            CharacterUtility characterUtility = new CharacterUtility();
+            _PlayerClass = characterUtility.ChooseClass(this);
         }
         public void Attack(Enemy enemy)
         {
@@ -56,57 +57,19 @@ namespace TextRPG
         public void PrintPlayerInformation()
         {
             CharacterUtility characterUtility = new CharacterUtility();
-            //read from save file and split on comma? -- clean up this block of cw's
-            Console.Clear();
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Level: {Level}");
-            Console.WriteLine($"Level Points: {LevelPoints}");
-            Console.WriteLine($"Experience Points: {Experience}");
-            Console.WriteLine($"Class: {PlayerClass}");
-            //Make a utility.PrintItem() method that writes the text below in color per rarity
-            characterUtility.PrintPlayerItems(this);
-            //Console.WriteLine($"Current Weapon: \n\t{CurrentWeapon.Name} : {CurrentWeapon.DamageValue} Damage");
-            //Console.WriteLine($"Current Helmet: \n\t{CurrentHelmet.Name} : {CurrentHelmet.ArmorValue} Armor");
-            //Console.WriteLine($"Current Body: \n\t{CurrentBody.Name} : {CurrentBody.ArmorValue} Armor");
-            //Console.WriteLine($"Current Legs: \n\t{CurrentLegs.Name} : {CurrentLegs.ArmorValue } Armor");
-            //Console.WriteLine($"Current Legs: \n\t{CurrentBoots.Name} : {CurrentBoots.ArmorValue} Armor");
-            //Console.WriteLine($"Current Amulet: \n\t{CurrentAmulet.Name}");
-            //Console.WriteLine($"Current Ring: \n\t{CurrentRing.Name}");
-            Console.WriteLine("_______________________");
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
-            Console.Clear();
-            Console.WriteLine("_______________________");
-            Console.WriteLine("Here are your Attributes:");
-            foreach (var stats in Attributes)
-            {
-                Console.WriteLine(stats.Key + " : " + stats.Value.ToString());
-            }
-            Console.WriteLine("_______________________");
-            Console.WriteLine("Here are your abilities:");
-            foreach (var ability in Abilities)
-            {
-                Console.WriteLine($"-{ability.Name}");
-            }
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
-            Console.Clear();
-            Console.WriteLine("_______________________");
-            Console.WriteLine("Here is your inventory:");
-            Console.WriteLine($"-Gold: {Gold}");
-            foreach (var item in Inventory)
-            {
-                Console.WriteLine($"-{item.Name}: {item.Quantity}");
-            }
-            Console.WriteLine("_______________________");
-            Console.WriteLine("Here is your Ammunition:");
-            foreach (var item in Ammunition)
-            {
-                Console.WriteLine($"-{item.Name}:\n\tDamage Multiplier: {item.DamageMultiplier}\n\tQuantity: {item.Quantity}");
-            }
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
-            Console.Clear();
+            Utility utility = new Utility();
+            characterUtility.PrintPlayerStatistics(this);
+            utility.MessageEnder();
+            characterUtility.PrintPlayerEquipment(this);
+            utility.MessageEnder();
+            characterUtility.PrintPlayerAttributes(this);
+            utility.MessageEnder();
+            characterUtility.PrintPlayerAbilities(this);
+            utility.MessageEnder();
+            characterUtility.PrintPlayerInventory(this);
+            utility.MessageEnder();
+            characterUtility.PrintPlayerAmmunition(this);
+            utility.MessageEnder();
         }
         public void LevelUp()
         {
