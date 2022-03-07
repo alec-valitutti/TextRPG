@@ -6,7 +6,6 @@ namespace TextRPG.Interfaces
 {
     public interface IItem
     {
-        void UseItem();
-        void AddItemToInventory();
+        string GetRarity();
     }
 }

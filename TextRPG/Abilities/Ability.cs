@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextRPG.Items;
 
 namespace TextRPG.Abilities
 {
     [System.Serializable]
-    public class Ability
+    public class Ability : Item
     {
-        public string Name { get; set; }
         public int Cost { get; set; }
         public int Damage { get; set; }
         public virtual void UseAbility()
