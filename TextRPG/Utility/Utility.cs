@@ -40,17 +40,17 @@ namespace TextRPG.Utilities
                 throw new Exception("Could not verify the input", e);
             }
         }
-        public void PrintInputOptions()
+        public void PrintInputOptions(List<string> options)
         {
             try
             {
-                if (Options.Count == 0 || Options == null)
+                if (options.Count == 0 || options == null)
                 {
                     throw new Exception();
                 }
-                for (int i = 0; i < Options.Count; i++)
+                for (int i = 0; i < options.Count; i++)
                 {
-                    Console.WriteLine((i + 1).ToString() + ": " + Options[i]);
+                    Console.WriteLine((i + 1).ToString() + ": " + options[i]);
                 }
             }
             catch (Exception e)

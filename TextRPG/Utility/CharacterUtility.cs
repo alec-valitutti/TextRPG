@@ -38,6 +38,7 @@ namespace TextRPG.Utilities
             input = Console.ReadLine();
             Player player = new Player(input);
             utility.SaveObject(player);
+            player.LevelPoints = 1;
             player.PrintPlayerInformation();
             return player;
         }
@@ -45,8 +46,8 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            utility.Options = new List<string>() { "Warrior", "Mage", "Archer", "Custom" };
-            utility.PrintInputOptions();
+            //utility.Options = new List<string>() { "Warrior", "Mage", "Archer", "Custom" };
+            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer", "Custom" });
             var input = utility.GetInput();
             switch (input)
             {

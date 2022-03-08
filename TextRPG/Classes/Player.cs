@@ -73,6 +73,10 @@ namespace TextRPG
         }
         public void LevelUp()
         {
+            if (LevelPoints <= 0)
+            {
+                return;
+            }
             Utility utility = new Utility();
             //print out level up points
             Console.WriteLine($"Level Points: {LevelPoints}");
@@ -96,6 +100,18 @@ namespace TextRPG
             utility.SaveObject(this);
             Console.Clear();
             //input
+        }
+        public void UseItem()
+        {
+            CharacterUtility characterUtility = new CharacterUtility();
+            Utility utility = new Utility();
+            //print all items in inventory
+            characterUtility.PrintPlayerInventory(this);
+            //take input
+            var input = utility.GetInput();
+            Console.WriteLine(input);
+            //equip item/use item based on item type
+            //IF item was equppable and IF one was equipped store the 'unequipped' back in inventory
         }
     }
 }
