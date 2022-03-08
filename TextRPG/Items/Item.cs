@@ -12,7 +12,8 @@ namespace TextRPG.Items
         public Rarity _Rarity { get; set; }
         public Item() { }
         public Item(string name, Rarity rarity) { Name = name; _Rarity = rarity; }
-        public Item(string name, int quantity) { Quantity = quantity; Name = name; }
+        public Item(string name, int quantity, Rarity rarity)
+            { Quantity = quantity; Name = name; _Rarity = rarity; }
         public string GetRarity()
         {
             return _Rarity.ToString();

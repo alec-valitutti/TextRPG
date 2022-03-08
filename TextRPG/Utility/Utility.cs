@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.IO;
+using TextRPG.Items;
 
 namespace TextRPG.Utilities
 {
@@ -39,17 +40,17 @@ namespace TextRPG.Utilities
                 throw new Exception("Could not verify the input", e);
             }
         }
-        public void PrintInputOptions()
+        public void PrintInputOptions(List<string> options)
         {
             try
             {
-                if (Options.Count == 0 || Options == null)
+                if (options.Count == 0 || options == null)
                 {
                     throw new Exception();
                 }
-                for (int i = 0; i < Options.Count; i++)
+                for (int i = 0; i < options.Count; i++)
                 {
-                    Console.WriteLine((i + 1).ToString() + ": " + Options[i]);
+                    Console.WriteLine((i + 1).ToString() + ": " + options[i]);
                 }
             }
             catch (Exception e)
@@ -111,7 +112,7 @@ namespace TextRPG.Utilities
         }
         public void SaveObject(object obj)
         {
-            if (obj ==null)
+            if (obj == null)
             {
                 return;
             }
@@ -121,6 +122,130 @@ namespace TextRPG.Utilities
                 string json = JsonSerializer.Serialize(obj);
                 sw.Write(json);
             }
+        }
+        public void MessageEnder()
+        {
+            Console.WriteLine("_______________________");
+            Console.WriteLine("Press any key to continue:");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        public void TextColorChanger(List<Item> inputList)
+        {
+            foreach (var item in inputList)
+            {
+                // change conosole color to that color
+                switch (item.GetRarity())
+                {
+                    case "Common":
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
+                    case "Uncommon":
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case "Rare":
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        break;
+                    case "Unique":
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    case "Legendary":
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    default:
+                        break;
+                }
+                //write item
+                var print = "";
+                if (item.Quantity > 1)
+                {
+                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+                }
+                else
+                {
+                    print = $"{item.GetType().Name}: {item.Name}";
+                }
+                Console.WriteLine(print);
+            }
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        public void TextColorChanger(List<Armor> inputList)
+        {
+            foreach (var item in inputList)
+            {
+                // change conosole color to that color
+                switch (item.GetRarity())
+                {
+                    case "Common":
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
+                    case "Uncommon":
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case "Rare":
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        break;
+                    case "Unique":
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    case "Legendary":
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    default:
+                        break;
+                }
+                //write item
+                var print = "";
+                if (item.Quantity > 1)
+                {
+                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+                }
+                else
+                {
+                    print = $"{item.GetType().Name}: {item.Name}";
+                }
+                Console.WriteLine(print);
+            }
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        public void TextColorChanger(List<Projectile> inputList)
+        {
+            foreach (var item in inputList)
+            {
+                // change conosole color to that color
+                switch (item.GetRarity())
+                {
+                    case "Common":
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        break;
+                    case "Uncommon":
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case "Rare":
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        break;
+                    case "Unique":
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        break;
+                    case "Legendary":
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        break;
+                    default:
+                        break;
+                }
+                //write item
+                var print = "";
+                if (item.Quantity > 1)
+                {
+                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+                }
+                else
+                {
+                    print = $"{item.GetType().Name}: {item.Name}";
+                }
+                Console.WriteLine(print);
+            }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

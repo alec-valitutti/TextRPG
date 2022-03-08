@@ -9,8 +9,8 @@ namespace TextRPG.Items
         public float DamageMultiplier { get; set; }
         public string Type { get; set; }
         public Projectile() { }
-        public Projectile(string name) : base(name) { }
-        public Projectile(string name, int quantity, string type) : base($"{type} {name}")
+        public Projectile(string name, Rarity rarity) : base(name, rarity) { }
+        public Projectile(string name, int quantity, string type, Rarity rarity) : base($"{type} {name}", quantity, rarity)
         {
             Quantity = quantity;
             Type = type;
