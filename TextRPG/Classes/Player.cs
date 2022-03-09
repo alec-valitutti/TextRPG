@@ -47,8 +47,6 @@ namespace TextRPG
         {
             Name = name;
             Hitpoints = 10;
-            CharacterUtility characterUtility = new CharacterUtility();
-            _PlayerClass = characterUtility.ChooseClass(this);
         }
         public void Attack(Enemy enemy)
         {
@@ -91,10 +89,10 @@ namespace TextRPG
                 count++;
             }
             //1-7
-            var input = utility.GetInput();
-            Attributes[input]++;
+            //utility.GetInput();
+            //Attributes[input]++;
             LevelPoints -= 1;
-            Console.WriteLine($"You've leveled {input} to {Attributes[input]}!");
+            //Console.WriteLine($"You've leveled {input} to {Attributes[input]}!");
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
             utility.SaveObject(this);
@@ -108,8 +106,8 @@ namespace TextRPG
             //print all items in inventory
             characterUtility.PrintPlayerInventory(this);
             //take input
-            var input = utility.GetInput();
-            Console.WriteLine(input);
+            //utility.GetInput();
+            //Console.WriteLine(input);
             //equip item/use item based on item type
             //IF item was equppable and IF one was equipped store the 'unequipped' back in inventory
         }

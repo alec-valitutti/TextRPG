@@ -4,59 +4,131 @@ using System.Text;
 using System.Text.Json;
 using System.IO;
 using TextRPG.Items;
+using TextRPG.Abilities;
 
 namespace TextRPG.Utilities
 {
     public class Utility
     {
-        public List<string> Options { get; set; } = new List<string>();
         public static string Path = "..\\..\\..\\";
-
-        public bool CheckInput(string input, out string val)
+        public List<string> Options { get; set; } = new List<string>();
+        public Dictionary<string, Func<Player, CharacterUtility, Utility, Player>> Functionality { get; set; } = new Dictionary<string, Func<Player, CharacterUtility, Utility, Player>>()
         {
+            { "New Game", (p,c,u)=>{ return c.CreateCharacter();}},
+            {"Load Game", (p,c,u)=>{ var result = u.LoadPlayer();
+                if (result != null)
+                {
+                    result.PrintPlayerInformation();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("No save data found, creating new character:");
+                    c.CreateCharacter();
+                }
+
+                return result; }},
+            { "Quit", (p,c,u)=> {u.Quit(p); return null;}},
+        };
+        public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
+        {
+            { "Yes", () =>{ return true; } },
+            { "No", () => { return false; } }
+        };
+        public Dictionary<string, Action<Player>> ClassesDictionary { get; set; } = new Dictionary<string, Action<Player>>()
+        {
+            {"Warrior",(player)=>
+                {
+                    player.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
+                    player.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
+                    player.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
+                }
+            },
+            {"Mage",(player)=>
+                {
+                    player.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
+                    player.CurrentHelmet = new Armor("Cloth Robe Hat", 1, ArmorType.Helmet, Rarity.Common);
+                    player.CurrentBody = new Armor("Cloth Robe Top", 1, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Cloth Robe Bottom", 1, ArmorType.Legs, Rarity.Common);
+                    player.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
+                }
+            },
+            {"Archer",(player)=>
+                {
+                    player.CurrentWeapon = new Weapon("Bow", 1, Rarity.Common);
+                    player.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
+                    player.CurrentBody = new Armor("Leather Body", 1, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Leather Chaps", 1, ArmorType.Legs, Rarity.Common);
+                }
+            },
+
+        };
+
+        public bool CheckInput(string input, string inputType, Player player)
+        {
+            CharacterUtility characterUtility = new CharacterUtility();
+            var result = false;
             try
             {
                 if (input == null || input.Contains(" "))
                 {
                     throw new Exception();
                 }
-                if (Options == null || Options.Count == 0)
-                {
-                    throw new Exception();
-                }
                 int.TryParse(input, out int inputNum);
-                if (inputNum <= Options.Count && inputNum != 0)
+                if (inputType=="Main Menu")
                 {
-                    val = Options[inputNum - 1];
-                    return true;
+                    Functionality[Options[inputNum - 1]].Invoke(player, characterUtility, this);
+
                 }
-                else
+                if (inputType == "Conditional")
                 {
-                    throw new Exception();
+                    result = Conditionals[Options[inputNum - 1]].Invoke();
                 }
+                if (inputType == "Classes")
+                {
+                    ClassesDictionary[Options[inputNum - 1]].Invoke(player);
+                }
+                return result;
             }
             catch (Exception e)
             {
                 throw new Exception("Could not verify the input", e);
             }
         }
-        public void PrintInputOptions()
+        public void PrintInputOptions(string InputType)
         {
-            try
+            Options.Clear();
+            int count = 1;
+            if (InputType == "Main Menu")
             {
-                if (Options.Count == 0 || Options == null)
+                foreach (var item in Functionality)
                 {
-                    throw new Exception();
-                }
-                for (int i = 0; i < Options.Count; i++)
-                {
-                    Console.WriteLine((i + 1).ToString() + ": " + Options[i]);
+                    Console.WriteLine($"{count}: {item.Key}");
+                    Options.Add(item.Key);
+                    count++;
                 }
             }
-            catch (Exception e)
+            if (InputType == "Conditional")
             {
-
-                throw new Exception("Could not write out options!", e);
+                foreach (var item in Conditionals)
+                {
+                    Console.WriteLine($"{count}: {item.Key}");
+                    Options.Add(item.Key);
+                    count++;
+                }
+            }
+        }
+        public void PrintInputOptions(Dictionary<string, Action<Player>> InputType)
+        {
+            Options.Clear();
+            int count = 1;
+            List<string> options = new List<string>();
+            foreach (var entry in InputType)
+            {
+                Console.WriteLine($"{count}: {entry.Key}"); ;
+                Options.Add(entry.Key);
+                count++;
             }
         }
         public void Quit(Player player)
@@ -72,25 +144,17 @@ namespace TextRPG.Utilities
             }
             Environment.Exit(0);
         }
-        public string GetInput()
+        public void GetInput(Player player)
         {
-            bool isTrue = false;
-            var output = "";
-            while (!isTrue)
-            {
-                try
-                {
-                    isTrue = CheckInput(Console.ReadLine(), out string input);
-                    output = input;
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Please enter a valid input:");
-                    PrintInputOptions();
-                }
-            }
-            Console.Clear();
-            return output;
+            CheckInput(Console.ReadLine(),"Main Menu", player);
+        }
+        public bool GetConditional(Player player)
+        {
+            return CheckInput(Console.ReadLine(), "Conditional", player);
+        }
+        public bool GetClasses(Player player)
+        {
+            return CheckInput(Console.ReadLine(), "Classes", player);
         }
         public Player LoadPlayer()
         {
@@ -107,8 +171,10 @@ namespace TextRPG.Utilities
             }
             catch (Exception)
             {
+                
                 return null;
             }
+
         }
         public void SaveObject(object obj)
         {
