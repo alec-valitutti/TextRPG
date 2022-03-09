@@ -20,19 +20,22 @@ namespace TextRPG.Utilities
             if (_player != null)
             {
                 Console.WriteLine("You already have a character created, do you want to overwrite it?");
-                utility.PrintInputOptions("Conditional");
+                utility.PrintInputOptions(new List<string>(){"Yes","No"});
                 var isTrue = utility.GetConditional(_player);
                 if (isTrue != true)
                 {
-                    Console.Clear();
                     Console.WriteLine("Loading character:");
                     _player.PrintPlayerInformation();
                     return _player;
                 }
             }
             Console.WriteLine("What would you like to name your character?");
-            var input = Console.ReadLine();
-            Player player = new Player(input)
+            string name = "";
+            while (!utility.isValidString(Console.ReadLine(), out name))
+            {
+                Console.WriteLine("Please enter a valid name:");
+            }
+            Player player = new Player(name)
             {
                 LevelPoints = 1
             };
@@ -45,21 +48,23 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            utility.PrintInputOptions(utility.ClassesDictionary);
-            utility.GetClasses(player);
+            utility.PrintInputOptions(new List<string>(){"Warrior", "Mage", "Archer"});
+            utility.GetInput(player);
             
         }
         public void PrintPlayerEquipment(Player player)
         {
             Utility utility = new Utility();
-            List<Item> playerItems = new List<Item>();
-            playerItems.Add(player.CurrentWeapon);
-            playerItems.Add(player.CurrentHelmet);
-            playerItems.Add(player.CurrentBody);
-            playerItems.Add(player.CurrentLegs);
-            playerItems.Add(player.CurrentBoots);
-            playerItems.Add(player.CurrentRing);
-            playerItems.Add(player.CurrentAmulet);
+            List<Item> playerItems = new List<Item>
+            {
+                player.CurrentWeapon,
+                player.CurrentHelmet,
+                player.CurrentBody,
+                player.CurrentLegs,
+                player.CurrentBoots,
+                player.CurrentRing,
+                player.CurrentAmulet
+            };
             //check item rarity
             Console.WriteLine("Here are your currently Equipped Items:");
             utility.TextColorChanger(playerItems);
