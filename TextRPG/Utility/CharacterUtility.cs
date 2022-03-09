@@ -46,8 +46,8 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            //utility.Options = new List<string>() { "Warrior", "Mage", "Archer", "Custom" };
-            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer", "Custom" });
+            utility.Options = new List<string>() { "Warrior", "Mage", "Archer", "Custom" };
+            utility.PrintInputOptions();
             var input = utility.GetInput();
             switch (input)
             {

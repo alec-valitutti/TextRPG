@@ -24,8 +24,8 @@ namespace TextRPG
             Utility utility = new Utility();
             CharacterUtility characterUtility = new CharacterUtility();
             Console.WriteLine("Options:");
-            //utility.Options = new List<string>() { "New Game", "Load Game", "Quit" };
-            utility.PrintInputOptions(new List<string>() { "New Game", "Load Game", "Quit" });
+            utility.Options = new List<string>() { "New Game", "Load Game", "Quit" };
+            utility.PrintInputOptions();
             var input = "";
             input = utility.GetInput();
             switch (input)
@@ -43,8 +43,8 @@ namespace TextRPG
                     catch (Exception)
                     {
                         Console.WriteLine("No save data found, would you like to create a new character?");
-                        //utility.Options = new List<string>() { "Yes", "No" };
-                        utility.PrintInputOptions(new List<string>() { "Yes", "No" });
+                        utility.Options = new List<string>() { "Yes", "No" };
+                        utility.PrintInputOptions();
                         //utility.CheckInput(Console.ReadLine(), out input);
                         input = utility.GetInput();
                         if (input == "1")
@@ -67,7 +67,7 @@ namespace TextRPG
         public void Gameplay()
         {
             Utility utility = new Utility();
-            //utility.Options = new List<string>() { "Explore", "Check Stats", "Quit" };
+            utility.Options = new List<string>() { "Explore", "Check Stats", "Quit" };
             if (Player.LevelPoints > 0)
             {
                 utility.Options.Insert(2, "Level Up");
@@ -78,7 +78,7 @@ namespace TextRPG
                     );
                 
             }
-            utility.PrintInputOptions(new List<string>() { "Explore", "Check Stats", "Quit" });
+            utility.PrintInputOptions();
             var input = utility.GetInput();
             switch (input)
             {

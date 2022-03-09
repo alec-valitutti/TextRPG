@@ -9,6 +9,8 @@ namespace TextRPG.Utilities
     {
         public void GenerateCombatEncounter()
         {
+            Enemy e = new Enemy() { Name="Thor"};
+            Console.WriteLine($"you found an enemy named: {e.Name}");
         }
     }
 }
