@@ -31,7 +31,7 @@ namespace TextRPG.Utilities
             }
             Console.WriteLine("What would you like to name your character?");
             string name = "";
-            while (!utility.isValidString(Console.ReadLine(), out name))
+            while (!utility.IsValidString(Console.ReadLine(), out name))
             {
                 Console.WriteLine("Please enter a valid name:");
             }
@@ -92,8 +92,13 @@ namespace TextRPG.Utilities
         public void PrintPlayerAmmunition(Player player)
         {
             Utility utility = new Utility();
+            List<Item> playerAmmunition = new List<Item>();
+            foreach (var item in player.Ammunition)
+            {
+                playerAmmunition.Add(item);
+            }
             Console.WriteLine("Here is your Ammunition:");
-            utility.TextColorChanger(player.Ammunition);
+            utility.TextColorChanger(playerAmmunition);
         }
         public void PrintPlayerAttributes(Player player)
         {

@@ -68,6 +68,7 @@ namespace TextRPG
             utility.MessageEnder();
             characterUtility.PrintPlayerAmmunition(this);
             utility.MessageEnder();
+
         }
         public void LevelUp()
         {
@@ -104,7 +105,7 @@ namespace TextRPG
             CharacterUtility characterUtility = new CharacterUtility();
             Utility utility = new Utility();
             //print all items in inventory
-            characterUtility.PrintPlayerInventory(this);
+            //characterUtility.PrintPlayerInventory(this);
             //take input
             //utility.GetInput();
             //Console.WriteLine(input);

@@ -64,6 +64,8 @@ namespace TextRPG.Utilities
                     return player;
                 }
             },
+            { "TestOption", (p)=>{Console.WriteLine("test"); return null; }},
+
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
         {
@@ -73,7 +75,6 @@ namespace TextRPG.Utilities
 
         public bool CheckInput(string input, Player player)
         {
-            Console.Clear();
             CharacterUtility characterUtility = new CharacterUtility();
             var result = false;
             try
@@ -90,13 +91,11 @@ namespace TextRPG.Utilities
             catch (Exception)
             {
                 Console.WriteLine("Please enter a valid input:");
-                PrintInputOptions(Options);
                 return false;
             }
         }
         public bool CheckConditional(string input, Player player)
         {
-            Console.Clear();
             CharacterUtility characterUtility = new CharacterUtility();
             var result = false;
             try
@@ -117,19 +116,25 @@ namespace TextRPG.Utilities
         }
         public void PrintInputOptions(List<string> InputType)
         {
-            Options = InputType;
-            int count = 1;
-            foreach (var item in Options)
+            if (InputType == null || InputType.Count == 0)
             {
-                Console.WriteLine($"{count}: {item}");
-                count++;
+                throw new Exception("input was null/input list count was 0");
+            }
+            Options = InputType;
+            for (int i = 0; i < Options.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: {Options[i]}");
             }
         }
         public void Quit(Player player)
         {
             try
             {
-                SaveObject(player);
+                if (player == null)
+                {
+                    throw new Exception("Player was null");
+                }
+                //SaveObject(player); // dependency
             }
             catch (Exception e)
             {
@@ -138,7 +143,7 @@ namespace TextRPG.Utilities
             }
             Environment.Exit(0);
         }
-        public bool isValidString(string input, out string output)
+        public bool IsValidString(string input, out string output)
         {
             output = null;
             if (!string.IsNullOrEmpty(input))
@@ -157,7 +162,7 @@ namespace TextRPG.Utilities
             bool isTrue = false;
             while (!isTrue)
             {
-                isTrue = CheckInput(Console.ReadLine(), player);
+                isTrue = CheckInput(Console.ReadLine(), player);//depenedncy
             }
         }
         public bool GetConditional(Player player)
@@ -227,6 +232,7 @@ namespace TextRPG.Utilities
                         Console.ForegroundColor = ConsoleColor.Magenta;
                         break;
                     default:
+                        Console.ResetColor();
                         break;
                 }
                 //write item
@@ -241,85 +247,7 @@ namespace TextRPG.Utilities
                 }
                 Console.WriteLine(print);
             }
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-        public void TextColorChanger(List<Armor> inputList)
-        {
-            foreach (var item in inputList)
-            {
-                // change conosole color to that color
-                switch (item.GetRarity())
-                {
-                    case "Common":
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        break;
-                    case "Uncommon":
-                        Console.ForegroundColor = ConsoleColor.White;
-                        break;
-                    case "Rare":
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        break;
-                    case "Unique":
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    case "Legendary":
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        break;
-                    default:
-                        break;
-                }
-                //write item
-                var print = "";
-                if (item.Quantity > 1)
-                {
-                    print = $"{item.Name}: {item.Name} x {item.Quantity}";
-                }
-                else
-                {
-                    print = $"{item.GetType().Name}: {item.Name}";
-                }
-                Console.WriteLine(print);
-            }
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-        public void TextColorChanger(List<Projectile> inputList)
-        {
-            foreach (var item in inputList)
-            {
-                // change conosole color to that color
-                switch (item.GetRarity())
-                {
-                    case "Common":
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        break;
-                    case "Uncommon":
-                        Console.ForegroundColor = ConsoleColor.White;
-                        break;
-                    case "Rare":
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        break;
-                    case "Unique":
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    case "Legendary":
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        break;
-                    default:
-                        break;
-                }
-                //write item
-                var print = "";
-                if (item.Quantity > 1)
-                {
-                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
-                }
-                else
-                {
-                    print = $"{item.GetType().Name}: {item.Name}";
-                }
-                Console.WriteLine(print);
-            }
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ResetColor();
         }
     }
 }
