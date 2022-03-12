@@ -6,9 +6,8 @@ namespace TextRPG
     {
         static void Main(string[] args)
         {
-            //Game game = new Game();
-            //game.Play();
-            Console.ReadKey();
+            Game game = new Game();
+            game.Play();
         }
     }
 }

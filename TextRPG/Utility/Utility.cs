@@ -4,59 +4,125 @@ using System.Text;
 using System.Text.Json;
 using System.IO;
 using TextRPG.Items;
+using TextRPG.Abilities;
 
 namespace TextRPG.Utilities
 {
     public class Utility
     {
-        public List<string> Options { get; set; } = new List<string>();
         public static string Path = "..\\..\\..\\";
-
-        public bool CheckInput(string input, out string val)
+        public List<string> Options { get; set; } = new List<string>();
+        public Dictionary<string, Func<Player, Player>> Functionality { get; set; } = new Dictionary<string, Func<Player, Player>>()
         {
+            { "New Game", (p)=>
+            {CharacterUtility c = new CharacterUtility(); return c.CreateCharacter();}},
+            {"Load Game", (p)=>
+            {
+                Utility u = new Utility();
+                CharacterUtility c = new CharacterUtility();
+                var result = u.LoadPlayer();
+                if (result != null)
+                {
+                    result.PrintPlayerInformation();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("No save data found, creating new character:");
+                    c.CreateCharacter();
+                }
+
+                return result; }},
+            { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return null;}},
+            {"Warrior",(player)=>
+                {   player._PlayerClass = "Warrior";
+                    player.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
+                    player.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
+                    player.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
+                return player;
+                }
+            },
+            {"Mage",(player)=>
+                {
+                    player._PlayerClass = "Mage";
+                    player.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
+                    player.CurrentHelmet = new Armor("Cloth Robe", 1, ArmorType.Hat, Rarity.Common);
+                    player.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
+                    player.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
+                    return player;
+                }
+            },
+            {"Archer",(player)=>
+                {
+                    player._PlayerClass = "Archer";
+                    player.CurrentWeapon = new Weapon("Bow", 1, Rarity.Common);
+                    player.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
+                    player.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
+                    player.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
+                    return player;
+                }
+            },
+        };
+        public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
+        {
+            { "Yes", () =>{ return true; } },
+            { "No", () => { return false; } }
+        };
+
+        public bool CheckInput(string input, Player player)
+        {
+            Console.Clear();
+            CharacterUtility characterUtility = new CharacterUtility();
+            var result = false;
             try
             {
                 if (input == null || input.Contains(" "))
                 {
                     throw new Exception();
                 }
-                if (Options == null || Options.Count == 0)
+                int.TryParse(input, out int inputNum);
+                Functionality[Options[inputNum - 1]].Invoke(player);
+                result = true;
+                return result;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Please enter a valid input:");
+                PrintInputOptions(Options);
+                return false;
+            }
+        }
+        public bool CheckConditional(string input, Player player)
+        {
+            Console.Clear();
+            CharacterUtility characterUtility = new CharacterUtility();
+            var result = false;
+            try
+            {
+                if (input == null || input.Contains(" "))
                 {
                     throw new Exception();
                 }
                 int.TryParse(input, out int inputNum);
-                if (inputNum <= Options.Count && inputNum != 0)
-                {
-                    val = Options[inputNum - 1];
-                    return true;
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                result = Conditionals[Options[inputNum - 1]].Invoke();
+                return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception("Could not verify the input", e);
+                Console.WriteLine("Please enter a valid input:");
+                return false;
             }
         }
-        public void PrintInputOptions()
+        public void PrintInputOptions(List<string> InputType)
         {
-            try
+            Options = InputType;
+            int count = 1;
+            foreach (var item in Options)
             {
-                if (Options.Count == 0 || Options == null)
-                {
-                    throw new Exception();
-                }
-                for (int i = 0; i < Options.Count; i++)
-                {
-                    Console.WriteLine((i + 1).ToString() + ": " + Options[i]);
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception("Could not write out options!", e);
+                Console.WriteLine($"{count}: {item}");
+                count++;
             }
         }
         public void Quit(Player player)
@@ -72,25 +138,31 @@ namespace TextRPG.Utilities
             }
             Environment.Exit(0);
         }
-        public string GetInput()
+        public bool isValidString(string input, out string output)
         {
-            bool isTrue = false;
-            var output = "";
-            while (!isTrue)
+            output = null;
+            if (!string.IsNullOrEmpty(input))
             {
-                try
+                if (input != " ")
                 {
-                    isTrue = CheckInput(Console.ReadLine(), out string input);
                     output = input;
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Please enter a valid input:");
-                    PrintInputOptions();
+                    return true;
                 }
             }
-            Console.Clear();
-            return output;
+            return false;
+
+        }
+        public void GetInput(Player player)
+        {
+            bool isTrue = false;
+            while (!isTrue)
+            {
+                isTrue = CheckInput(Console.ReadLine(), player);
+            }
+        }
+        public bool GetConditional(Player player)
+        {
+            return CheckConditional(Console.ReadLine(), player);
         }
         public Player LoadPlayer()
         {
@@ -107,8 +179,10 @@ namespace TextRPG.Utilities
             }
             catch (Exception)
             {
+
                 return null;
             }
+
         }
         public void SaveObject(object obj)
         {
@@ -198,7 +272,7 @@ namespace TextRPG.Utilities
                 var print = "";
                 if (item.Quantity > 1)
                 {
-                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+                    print = $"{item.Name}: {item.Name} x {item.Quantity}";
                 }
                 else
                 {
