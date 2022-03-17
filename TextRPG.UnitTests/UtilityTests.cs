@@ -5,6 +5,8 @@ using Moq;
 using TextRPG.Utilities;
 using System.Collections.Generic;
 using TextRPG.Items;
+using TextRPG.Interfaces;
+using System.IO;
 
 namespace TextRPG.UnitTests
 {
@@ -146,6 +148,26 @@ namespace TextRPG.UnitTests
         #endregion
         #region GetConditional
         //This takes in user input. Need to find out how to pass in parameters
+        [Test]
+        public void GetConditionals()
+        {
+            Utility utility = new Utility();
+            TestClass testClass = new TestClass();
+            using (var sw = new StringWriter())
+            {
+                using (var sr = new StringReader("1"))
+                {
+                    Console.SetIn(sr);
+                    Console.SetOut(sw);
+                    utility.Options.Add("Yes");
+                    utility.Options.Add("No");
+
+                    var result = utility.GetConditional(new Player());
+
+                    Assert.IsTrue(result);
+                }
+            }
+        }
         #endregion
         #region LoadPlayer
         [Test]
@@ -160,7 +182,7 @@ namespace TextRPG.UnitTests
         [Test]
         public void SaveObject_Saves_When_Given_Object()
         {
-            TestClass testClass = new TestClass() { name = "Example" };
+            TestClass testClass = new TestClass() { Name = "Example" };
             Utility utility = new Utility();
             try
             {
@@ -191,8 +213,17 @@ namespace TextRPG.UnitTests
         }
         #endregion
     }
-    public class TestClass
+    public class TestClass: IUserInput
     {
-        public string name { get; set; }
-    };
+        public string Name { get; set; }
+
+        public bool GetConditional(Player player)
+        {
+            return true;
+        }
+        public bool GetInput(Player player)
+        {
+            return true;
+        }
+    }
 }

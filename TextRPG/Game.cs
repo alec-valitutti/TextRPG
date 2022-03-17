@@ -20,7 +20,7 @@ namespace TextRPG
             Utility utility = new Utility();
             Console.WriteLine("Options:");
             utility.PrintInputOptions(new List<string>() {"New Game","Load Game","Quit" });
-            utility.GetInput(Player);
+            var input = utility.GetInput(Player);
         }
         public void Gameplay()
         {
