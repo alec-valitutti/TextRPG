@@ -5,10 +5,11 @@ using System.Text.Json;
 using System.IO;
 using TextRPG.Items;
 using TextRPG.Abilities;
+using TextRPG.Interfaces;
 
 namespace TextRPG.Utilities
 {
-    public class Utility
+    public class Utility : IUserInput
     {
         public static string Path = "..\\..\\..\\";
         public List<string> Options { get; set; } = new List<string>();
@@ -72,7 +73,6 @@ namespace TextRPG.Utilities
             { "Yes", () =>{ return true; } },
             { "No", () => { return false; } }
         };
-
         public bool CheckInput(string input, Player player)
         {
             CharacterUtility characterUtility = new CharacterUtility();
@@ -157,17 +157,18 @@ namespace TextRPG.Utilities
             return false;
 
         }
-        public void GetInput(Player player)
+        public bool GetInput(Player player)
         {
             bool isTrue = false;
             while (!isTrue)
             {
                 isTrue = CheckInput(Console.ReadLine(), player);//depenedncy
             }
+            return true;
         }
         public bool GetConditional(Player player)
         {
-            return CheckConditional(Console.ReadLine(), player);
+            return CheckConditional(Console.ReadLine(), player);//dependency
         }
         public Player LoadPlayer()
         {
