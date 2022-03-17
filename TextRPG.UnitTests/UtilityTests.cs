@@ -13,39 +13,40 @@ namespace TextRPG.UnitTests
     [TestFixture]
     public class UtilityTests
     {
+        internal Utility sut;
+        [SetUp]
+        public void Setup()
+        {
+            sut = new Utility();
+        }
 
         #region CheckInput
         [Test]
         public void CheckInput_Given_Valid_Input_Executes_Logic_Returns_True()
         {
-            Utility utility = new Utility();
-            utility.Options.Add("TestOption");
-            bool result = utility.CheckInput("1", new Player());
+            sut.Options.Add("TestOption");
+            bool result = sut.CheckInput("1", new Player());
             Assert.IsTrue(result);
         }
         [Test]
         public void CheckInput_Given_Null_String_Throws_Exception()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckInput(null, new Player()));
+            Assert.IsFalse(sut.CheckInput(null, new Player()));
         }
         [Test]
         public void CheckInput_Given_Empty_String_Throws_Exception()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckInput("", new Player()));
+            Assert.IsFalse(sut.CheckInput("", new Player()));
         }
         [Test]
         public void CheckInput_Given_String_Not_In_Options_Throws_Exception()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckInput("pizza", new Player()));
+            Assert.IsFalse(sut.CheckInput("pizza", new Player()));
         }
         [Test]
         public void CheckInput_Given_Space_String_Throws_Exception()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckInput(" ", new Player()));
+            Assert.IsFalse(sut.CheckInput(" ", new Player()));
         }
         #endregion
         #region CheckConditional
@@ -53,35 +54,30 @@ namespace TextRPG.UnitTests
         [TestCase("2", false)]
         public void CheckConditional_Given_Valid_Input_Returns_Valid_Response(string input, bool expected)
         {
-            Utility utility = new Utility();
-            utility.Options.Add("Yes");
-            utility.Options.Add("No");
-            var result = utility.CheckConditional(input, new Player());
+            sut.Options.Add("Yes");
+            sut.Options.Add("No");
+            var result = sut.CheckConditional(input, new Player());
             Assert.AreEqual(expected, result);
         }
         [Test]
         public void CheckConditional_Given_Null_String_Returns_False()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckConditional(null, new Player()));
+            Assert.IsFalse(sut.CheckConditional(null, new Player()));
         }
         [Test]
         public void CheckConditional_Given_Empty_String_Returns_False()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckConditional("", new Player()));
+            Assert.IsFalse(sut.CheckConditional("", new Player()));
         }
         [Test]
         public void CheckConditional_Given_String_Not_In_Options_Returns_False()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckConditional("pizza", new Player()));
+            Assert.IsFalse(sut.CheckConditional("pizza", new Player()));
         }
         [Test]
         public void CheckConditional_Given_Space_String_Returns_False()
         {
-            Utility utility = new Utility();
-            Assert.IsFalse(utility.CheckConditional(" ", new Player()));
+            Assert.IsFalse(sut.CheckConditional(" ", new Player()));
         }
         #endregion
         #region PrintInputOptions
@@ -90,7 +86,6 @@ namespace TextRPG.UnitTests
         {
             try
             {
-                Utility sut = new Utility();
                 sut.PrintInputOptions(new List<string> { "hello", "goodbye" });
             }
             catch (Exception e)
@@ -103,13 +98,11 @@ namespace TextRPG.UnitTests
         [Test]
         public void PrintInputOptions_Options_Empty_ThrowsException()
         {
-            Utility sut = new Utility();
             Assert.Throws<Exception>(() => sut.PrintInputOptions(new List<string>()));
         }
         [Test]
         public void PrintInputOptions_Options_Null_ThrowsException()
         {
-            Utility sut = new Utility();
             sut.Options = null;
             Assert.Throws<Exception>(() => sut.PrintInputOptions(null));
         }
@@ -118,8 +111,7 @@ namespace TextRPG.UnitTests
         [Test]
         public void Quit_If_Plyer_Is_Null_Throw_Exception()
         {
-            Utility utility = new Utility();
-            Assert.Throws<Exception>(() => utility.Quit(null));
+            Assert.Throws<Exception>(() => sut.Quit(null));
         }
         #endregion
         #region IsValidInput
@@ -127,9 +119,7 @@ namespace TextRPG.UnitTests
         [TestCase("Pizza")]
         public void IsValidString_Given_Valid_String_Returns_True(string input)
         {
-            Utility utility = new Utility();
-            string stringResult = "";
-            bool result = utility.IsValidString(input, out stringResult);
+            bool result = sut.IsValidString(input, out string stringResult);
             Assert.AreEqual(stringResult, input);
             Assert.IsTrue(result);
         }
@@ -137,9 +127,7 @@ namespace TextRPG.UnitTests
         [TestCase("")]
         public void IsValidString_Given_Invalid_String_Returns_True(string input)
         {
-            Utility utility = new Utility();
-            string stringResult = "";
-            bool result = utility.IsValidString(input, out stringResult);
+            bool result = sut.IsValidString(input, out string stringResult);
             Assert.IsFalse(result);
         }
         #endregion
@@ -151,7 +139,6 @@ namespace TextRPG.UnitTests
         [Test]
         public void GetConditionals()
         {
-            Utility utility = new Utility();
             TestClass testClass = new TestClass();
             using (var sw = new StringWriter())
             {
@@ -159,10 +146,10 @@ namespace TextRPG.UnitTests
                 {
                     Console.SetIn(sr);
                     Console.SetOut(sw);
-                    utility.Options.Add("Yes");
-                    utility.Options.Add("No");
+                    sut.Options.Add("Yes");
+                    sut.Options.Add("No");
 
-                    var result = utility.GetConditional(new Player());
+                    var result = sut.GetConditional(new Player());
 
                     Assert.IsTrue(result);
                 }
@@ -173,8 +160,7 @@ namespace TextRPG.UnitTests
         [Test]
         public void LoadPlayer_LoadsPlayer()
         {
-            Utility utility = new Utility();
-            var result = utility.LoadPlayer();
+            var result = sut.LoadPlayer();
             Assert.IsInstanceOf(typeof(Player), result);
         }
         #endregion
@@ -183,10 +169,9 @@ namespace TextRPG.UnitTests
         public void SaveObject_Saves_When_Given_Object()
         {
             TestClass testClass = new TestClass() { Name = "Example" };
-            Utility utility = new Utility();
             try
             {
-                utility.SaveObject(testClass);
+                sut.SaveObject(testClass);
             }
             catch (Exception)
             {
@@ -199,16 +184,15 @@ namespace TextRPG.UnitTests
         //we reset the font colors on end so this isnt excatly testable
         public void TextColorChanger_Changes_Color_Based_On_Item_Rarity()
         {
-            Utility utility = new Utility();
-            utility.TextColorChanger(new List<Item>{ new Armor { Name="armor",_Rarity=Rarity.Common} });
+            sut.TextColorChanger(new List<Item>{ new Armor { Name="armor",_Rarity=Rarity.Common} });
             Assert.IsTrue(Console.ForegroundColor == ConsoleColor.DarkGray);
-            utility.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Uncommon} });
+            sut.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Uncommon} });
             Assert.IsTrue(Console.ForegroundColor == ConsoleColor.White);
-            utility.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Rare} });
+            sut.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Rare} });
             Assert.IsTrue(Console.ForegroundColor == ConsoleColor.Cyan);
-            utility.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Unique} });
+            sut.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Unique} });
             Assert.IsTrue(Console.ForegroundColor == ConsoleColor.Yellow);
-            utility.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Legendary} });
+            sut.TextColorChanger(new List<Item>{ new Armor { Name="sword",_Rarity=Rarity.Legendary} });
             Assert.IsTrue(Console.ForegroundColor == ConsoleColor.Magenta);
         }
         #endregion
