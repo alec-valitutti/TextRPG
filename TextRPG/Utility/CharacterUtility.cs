@@ -20,7 +20,7 @@ namespace TextRPG.Utilities
             if (_player != null)
             {
                 Console.WriteLine("You already have a character created, do you want to overwrite it?");
-                utility.PrintInputOptions(new List<string>(){"Yes","No"});
+                utility.PrintInputOptions(new List<string>() { "Yes", "No" });
                 var isTrue = utility.GetConditional(_player);
                 if (isTrue != true)
                 {
@@ -48,9 +48,9 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            utility.PrintInputOptions(new List<string>(){"Warrior", "Mage", "Archer"});
+            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer" });
             utility.GetInput(player);
-            
+
         }
         public void PrintPlayerEquipment(Player player)
         {
@@ -67,7 +67,12 @@ namespace TextRPG.Utilities
             };
             //check item rarity
             Console.WriteLine("Here are your currently Equipped Items:");
-            utility.TextColorChanger(playerItems);
+            foreach (var item in playerItems)
+            {
+
+                utility.TextColorChanger(item);
+            }
+            Console.ResetColor();
         }
         public void PrintPlayerAbilities(Player player)
         {
@@ -78,7 +83,11 @@ namespace TextRPG.Utilities
                 playerAbilities.Add(ability);
             }
             Console.WriteLine("Here are your abilities:");
-            utility.TextColorChanger(playerAbilities);
+            foreach (var item in playerAbilities)
+            {
+                utility.TextColorChanger(item);
+            }
+            Console.ResetColor();
         }
         public void PrintPlayerStatistics(Player player)
         {
@@ -98,7 +107,12 @@ namespace TextRPG.Utilities
                 playerAmmunition.Add(item);
             }
             Console.WriteLine("Here is your Ammunition:");
-            utility.TextColorChanger(playerAmmunition);
+            foreach (var item in playerAmmunition)
+            {
+
+                utility.TextColorChanger(item);
+            }
+            Console.ResetColor();
         }
         public void PrintPlayerAttributes(Player player)
         {

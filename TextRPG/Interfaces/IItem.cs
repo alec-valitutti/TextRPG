@@ -6,6 +6,5 @@ namespace TextRPG.Interfaces
 {
     public interface IItem
     {
-        string GetRarity();
     }
 }

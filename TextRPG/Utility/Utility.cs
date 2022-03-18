@@ -210,45 +210,41 @@ namespace TextRPG.Utilities
             Console.ReadKey();
             Console.Clear();
         }
-        public void TextColorChanger(List<Item> inputList)
+        public void TextColorChanger(Item item)
         {
-            foreach (var item in inputList)
+            // change conosole color to that color
+            switch (item._Rarity.ToString())
             {
-                // change conosole color to that color
-                switch (item.GetRarity())
-                {
-                    case "Common":
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        break;
-                    case "Uncommon":
-                        Console.ForegroundColor = ConsoleColor.White;
-                        break;
-                    case "Rare":
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        break;
-                    case "Unique":
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        break;
-                    case "Legendary":
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        break;
-                    default:
-                        Console.ResetColor();
-                        break;
-                }
-                //write item
-                var print = "";
-                if (item.Quantity > 1)
-                {
-                    print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
-                }
-                else
-                {
-                    print = $"{item.GetType().Name}: {item.Name}";
-                }
-                Console.WriteLine(print);
+                case "Common":
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    break;
+                case "Uncommon":
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case "Rare":
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                case "Unique":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case "Legendary":
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
             }
-            Console.ResetColor();
+            //write item
+            var print = "";
+            if (item.Quantity > 1)
+            {
+                print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+            }
+            else
+            {
+                print = $"{item.GetType().Name}: {item.Name}";
+            }
+            Console.WriteLine(print);
         }
     }
 }
