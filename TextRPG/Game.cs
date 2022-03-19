@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextRPG.Interfaces;
+using TextRPG.States;
 using TextRPG.Utilities;
 
 namespace TextRPG
 {
     public class Game
     {
-
+        public Dictionary<string, IGameState> GameStates { get; set; } = new Dictionary<string, IGameState>()
+        {
+            {"Main Menu", new MainMenuState() },{ "Idle", new IdleGameState()},{ "Combat", new CombatGameState()}
+        };
+        internal IGameState CurrentGameState { get; set; }
         public Player Player { get; set; } = new Player();
         public void Play()
         {
+            CurrentGameState = GameStates["Main Menu"];
+            CurrentGameState.EnterState();
             Console.WriteLine("Welcome to the game");
-
             MainMenu();
         }
         public void MainMenu()
         {
             Utility utility = new Utility();
             Console.WriteLine("Options:");
-            utility.PrintInputOptions(new List<string>() {"New Game","Load Game","Quit" });
+            utility.PrintInputOptions(CurrentGameState.AddOptions());
             var input = utility.GetInput(Player);
         }
         public void Gameplay()

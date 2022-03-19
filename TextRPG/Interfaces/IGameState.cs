@@ -4,8 +4,9 @@ using System.Text;
 
 namespace TextRPG.Interfaces
 {
-    public interface IAbility
+    public interface IGameState
     {
-        void UseAbility();
+        public void EnterState();
+        public List<string> AddOptions();
     }
 }

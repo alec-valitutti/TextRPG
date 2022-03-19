@@ -47,3 +47,5 @@ player classes
 ____________________________________________________________________
 Flesh out enemy class
 flesh out enemy creation
+_____________________________________________________________________
+I want to make a program state machine so that I dont have to pass in potential parameters for the options
