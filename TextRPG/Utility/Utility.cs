@@ -96,18 +96,9 @@ namespace TextRPG.Utilities
             do
             {
                 isTrue = int.TryParse(Console.ReadLine(), out result);
-                if (result > Options.Count)
-                {
-                    isTrue = false;
-                }
-                if (result < 0 || result == 0)
-                {
-                    isTrue = false;
-                }
-                if (!isTrue)
-                {
-                    Console.WriteLine("Please enter a valid input");
-                }
+                if (result > Options.Count) isTrue = false;
+                if (result < 0 || result == 0) isTrue = false;
+                if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
             player = Functionality[Options[result - 1]].Invoke(player);
             return player;
@@ -119,19 +110,9 @@ namespace TextRPG.Utilities
             do
             {
                 isTrue = int.TryParse(Console.ReadLine(), out result);
-                if (result > Options.Count)
-                {
-                    isTrue = false;
-                }
-                if (result < 0 || result == 0)
-                {
-                    isTrue = false;
-                }
-                if (!isTrue)
-                {
-                    Console.WriteLine("Please enter a valid input");
-                }
-
+                if (result > Options.Count) isTrue = false;
+                if (result < 0 || result == 0) isTrue = false;
+                if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
 
             return Conditionals[Options[result - 1]].Invoke();
