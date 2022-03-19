@@ -14,7 +14,8 @@ namespace TextRPG.States
 
         public override Player EnterState(Player player)
         {
-            throw new NotImplementedException();
+            Util.PrintInputOptions(AddOptions());
+            return Util.GetInput(player);
         }
     }
 }

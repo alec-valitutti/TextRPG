@@ -125,6 +125,7 @@ namespace TextRPG.Utilities
             }
         }
         public void PrintPlayerInventory(Player player)
+        
         {
             Console.WriteLine("Here is your inventory:");
             Console.WriteLine($"-Gold: {player.Gold}");

@@ -5,13 +5,14 @@ using TextRPG.Utilities;
 
 namespace TextRPG.States
 {
-    class IdleGameState : BaseState
+    class OptionsMenuState : BaseState
     {
         public override List<string> AddOptions()
         {
             Console.WriteLine("Options:");
-            return new List<string>() { "Explore", "Check Stats", "Use Item", "Options" };
+            return new List<string>() { "Save Game", "Main Menu", "Return" };
         }
+
         public override Player EnterState(Player player)
         {
             Util.PrintInputOptions(AddOptions());
