@@ -8,7 +8,8 @@ namespace TextRPG.States
     {
         public override List<string> AddOptions()
         {
-            return new List<string>() {"Explore","Check Stats","Use Item","Options" };
+            Console.WriteLine("Options:");
+            return new List<string>() { "Explore", "Check Stats", "Use Item", "Quit" };
         }
 
         public override void EnterState()

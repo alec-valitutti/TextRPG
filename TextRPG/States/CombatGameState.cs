@@ -8,6 +8,7 @@ namespace TextRPG.States
     {
         public override List<string> AddOptions()
         {
+            Console.WriteLine("Options:");
             return new List<string>() { "Attack", "Cast Ability", "Use Item" };
         }
 

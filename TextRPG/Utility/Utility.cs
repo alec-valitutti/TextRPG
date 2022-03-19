@@ -66,7 +66,9 @@ namespace TextRPG.Utilities
                 }
             },
             { "TestOption", (p)=>{Console.WriteLine("test"); return null; }},
-
+            { "Check Stats", (p)=>{ p.PrintPlayerInformation(); return null; } },
+            { "Explore",(p)=>{ Console.WriteLine("You explore..."); return null; } },
+            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return null; } }
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
         {
