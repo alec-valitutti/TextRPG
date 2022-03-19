@@ -48,7 +48,7 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer" });
+            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer","TESTCLASS" });
             utility.GetInput(player);
 
         }
@@ -94,6 +94,7 @@ namespace TextRPG.Utilities
             Console.WriteLine("Here is your character:");
             Console.WriteLine($"Name: {player.Name}");
             Console.WriteLine($"Level: {player.Level}");
+            Console.WriteLine($"Health: {player.Hitpoints}");
             Console.WriteLine($"Level Points: {player.LevelPoints}");
             Console.WriteLine($"Experience Points: {player.Experience}");
             Console.WriteLine($"Class: {player._PlayerClass}");
@@ -140,5 +141,11 @@ namespace TextRPG.Utilities
             Console.WriteLine("Here is your gold:");
             Console.WriteLine($"-Gold: {player.Gold}");
         }
+    }
+    public enum CharacterFunctions 
+    {
+        UseItem,
+        HealPlayer,
+        BoostResistance,
     }
 }

@@ -7,13 +7,20 @@ namespace TextRPG.States
 {
     class IdleGameState : BaseState
     {
+        internal Player Player;
         public override List<string> AddOptions()
         {
             Console.WriteLine("Options:");
-            return new List<string>() { "Explore", "Check Stats", "Items", "Options" };
+            var options = new List<string>() { "Explore", "Check Stats", "Items", "Options" };
+            if (Player.LevelPoints >0)
+            {
+                options.Insert(0, "Level Up");
+            }
+            return options;
         }
         public override Player EnterState(Player player)
         {
+            Player = player;
             Util.PrintInputOptions(AddOptions());
             return Util.GetInput(player);
         }

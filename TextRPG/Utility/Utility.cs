@@ -36,6 +36,11 @@ namespace TextRPG.Utilities
                 return result; }},
             { "Save Game", (p)=> {Utility u = new Utility();u.SaveObject(p);Console.WriteLine("Character Saved!"); return p;}},
             { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return p;}},
+            {"TESTCLASS",(p)=>
+                {   p._PlayerClass="TESTCLASS";
+                    p.Inventory.Add(new Item("Potion", Rarity.Legendary){ Quantity=2});
+                    p.Inventory.Add(new Weapon("Axe",9, Rarity.Unique));
+                    return p; } },
             {"Warrior",(p)=>
                 {   p._PlayerClass = "Warrior";
                     p.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
@@ -79,6 +84,7 @@ namespace TextRPG.Utilities
             
             { "Main Menu", (p)=>{ var x =new MainMenuState();p=x.EnterState(p); return p; } },
             { "Options", (p)=>{ var x =new OptionsMenuState();p=x.EnterState(p); return p; } },
+            { "Level Up", (p)=>{p.LevelUp(); return p; } },
             { "Return", (p)=>{ return p; } }
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()

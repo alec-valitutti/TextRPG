@@ -14,10 +14,10 @@ namespace TextRPG.Items
         public Item(string name, Rarity rarity) { Name = name; _Rarity = rarity; }
         public Item(string name, int quantity, Rarity rarity)
             { Quantity = quantity; Name = name; _Rarity = rarity; }
-        public void UseItem()
+        public virtual void UseItem()
         {
             Console.WriteLine($"You used {Name}");
         }
-
+        //How do I let items have unique functionality without having to write an action for each item?
     }
 }

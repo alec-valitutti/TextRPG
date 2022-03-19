@@ -15,6 +15,7 @@ namespace TextRPG
         public string Name { get; set; }
         public string _PlayerClass { get; set; } = "Human";
         public int Hitpoints { get; set; }
+        public int MaxHitpoints { get; set; }
         public int Level { get; set; } = 0;
         public float Experience { get; set; } = 0;
         public int LevelPoints { get; set; } = 0;
@@ -47,6 +48,7 @@ namespace TextRPG
         {
             Name = name;
             Hitpoints = 10;
+            MaxHitpoints = Hitpoints;
         }
         public void Attack(Enemy enemy)
         {
@@ -91,11 +93,10 @@ namespace TextRPG
                 Console.WriteLine($"{count}: {item.Key} : {item.Value}");
                 count++;
             }
-            //1-7
-            //utility.GetInput();
-            //Attributes[input]++;
-            LevelPoints -= 1;
-            //Console.WriteLine($"You've leveled {input} to {Attributes[input]}!");
+            //LevelPoints -= 1;
+            //utility.GetInput(this);
+            Console.ReadKey();
+            Console.WriteLine("You've leveled up:");
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
             utility.SaveObject(this);
@@ -104,14 +105,19 @@ namespace TextRPG
         }
         public void UseItem(string input)
         {
-            CharacterUtility characterUtility = new CharacterUtility();
-            Utility utility = new Utility();
             foreach (var item in Inventory)
             {
                 if (item.Name == input)
                 {
                     item.UseItem();
-                    Inventory.Remove(item);
+                    if (item.Quantity > 1)
+                    {
+                        item.Quantity--;
+                    }
+                    else
+                    {
+                        Inventory.Remove(item);
+                    }
                     break;
                 }
             }

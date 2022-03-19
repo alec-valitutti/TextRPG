@@ -12,5 +12,9 @@
                 Quantity = 1;
             }
         }
+        public override void UseItem()
+        {
+            System.Console.WriteLine($"You equipped the {Name}");
+        }
     }
 }
