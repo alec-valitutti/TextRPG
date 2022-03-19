@@ -64,6 +64,8 @@ namespace TextRPG
             utility.MessageEnder();
             characterUtility.PrintPlayerAbilities(this);
             utility.MessageEnder();
+            characterUtility.PrintPlayerGold(this);
+            utility.MessageEnder();
             characterUtility.PrintPlayerInventory(this);
             utility.MessageEnder();
             characterUtility.PrintPlayerAmmunition(this);

@@ -42,6 +42,7 @@ namespace TextRPG.Utilities
                     p.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
                     p.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
+                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
                 return p;
                 }
             },
@@ -53,6 +54,8 @@ namespace TextRPG.Utilities
                     p.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
                     p.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
+                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
+
                     return p;
                 }
             },
@@ -63,6 +66,7 @@ namespace TextRPG.Utilities
                     p.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
                     p.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
+                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
                     return p;
                 }
             },

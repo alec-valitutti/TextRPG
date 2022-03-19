@@ -125,14 +125,20 @@ namespace TextRPG.Utilities
             }
         }
         public void PrintPlayerInventory(Player player)
-        
         {
+            Utility utility = new Utility();
             Console.WriteLine("Here is your inventory:");
-            Console.WriteLine($"-Gold: {player.Gold}");
             foreach (var item in player.Inventory)
             {
-                Console.WriteLine($"-{item.Name}: {item.Quantity}");
+                //Console.WriteLine($"-{item.Name}: {item.Quantity}");
+                utility.TextColorChanger(item);
             }
+            Console.ResetColor();
+        }
+        public void PrintPlayerGold(Player player)
+        {
+            Console.WriteLine("Here is your gold:");
+            Console.WriteLine($"-Gold: {player.Gold}");
         }
     }
 }
