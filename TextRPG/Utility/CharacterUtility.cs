@@ -21,8 +21,8 @@ namespace TextRPG.Utilities
             {
                 Console.WriteLine("You already have a character created, do you want to overwrite it?");
                 utility.PrintInputOptions(new List<string>() { "Yes", "No" });
-                var isTrue = utility.GetConditional(_player);
-                if (isTrue != true)
+                var isTrue = utility.GetConditional();
+                if (!isTrue)
                 {
                     Console.WriteLine("Loading character:");
                     _player.PrintPlayerInformation();

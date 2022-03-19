@@ -12,7 +12,7 @@ namespace TextRPG.States
             return new List<string>() { "Attack", "Cast Ability", "Use Item" };
         }
 
-        public override void EnterState()
+        public override Player EnterState(Player player)
         {
             throw new NotImplementedException();
         }

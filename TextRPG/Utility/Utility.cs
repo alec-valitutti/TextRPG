@@ -6,6 +6,7 @@ using System.IO;
 using TextRPG.Items;
 using TextRPG.Abilities;
 using TextRPG.Interfaces;
+using TextRPG.States;
 
 namespace TextRPG.Utilities
 {
@@ -32,7 +33,6 @@ namespace TextRPG.Utilities
                     Console.WriteLine("No save data found, creating new character:");
                     c.CreateCharacter();
                 }
-
                 return result; }},
             { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return null;}},
             {"Warrior",(player)=>
@@ -66,56 +66,17 @@ namespace TextRPG.Utilities
                 }
             },
             { "TestOption", (p)=>{Console.WriteLine("test"); return null; }},
-            { "Check Stats", (p)=>{ p.PrintPlayerInformation(); return null; } },
+            { "Check Stats", (p)=>
+            { p.PrintPlayerInformation(); return null; } },
             { "Explore",(p)=>{ Console.WriteLine("You explore..."); return null; } },
-            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return null; } }
+            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return null; } },
+            { "Main Menu", (p)=>{ var x =new MainMenuState();x.EnterState(p); return null; } }
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
         {
             { "Yes", () =>{ return true; } },
             { "No", () => { return false; } }
         };
-        public bool CheckInput(string input, Player player)
-        {
-            CharacterUtility characterUtility = new CharacterUtility();
-            var result = false;
-            try
-            {
-                if (input == null || input.Contains(" "))
-                {
-                    throw new Exception();
-                }
-                int.TryParse(input, out int inputNum);
-                Functionality[Options[inputNum - 1]].Invoke(player);
-                result = true;
-                return result;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Please enter a valid input:");
-                return false;
-            }
-        }
-        public bool CheckConditional(string input, Player player)
-        {
-            CharacterUtility characterUtility = new CharacterUtility();
-            var result = false;
-            try
-            {
-                if (input == null || input.Contains(" "))
-                {
-                    throw new Exception();
-                }
-                int.TryParse(input, out int inputNum);
-                result = Conditionals[Options[inputNum - 1]].Invoke();
-                return result;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Please enter a valid input:");
-                return false;
-            }
-        }
         public void PrintInputOptions(List<string> InputType)
         {
             if (InputType == null || InputType.Count == 0)
@@ -127,6 +88,16 @@ namespace TextRPG.Utilities
             {
                 Console.WriteLine($"{i + 1}: {Options[i]}");
             }
+        }
+        public Player GetInput(Player player)
+        {
+            Console.ReadLine();
+            return player;
+        }
+        public bool GetConditional()
+        {
+            Console.ReadLine();
+            return true;
         }
         public void Quit(Player player)
         {
@@ -159,19 +130,6 @@ namespace TextRPG.Utilities
             return false;
 
         }
-        public bool GetInput(Player player)
-        {
-            bool isTrue = false;
-            while (!isTrue)
-            {
-                isTrue = CheckInput(Console.ReadLine(), player);//depenedncy
-            }
-            return true;
-        }
-        public bool GetConditional(Player player)
-        {
-            return CheckConditional(Console.ReadLine(), player);//dependency
-        }
         public Player LoadPlayer()
         {
             var _path = Path + "Player.json";
@@ -190,7 +148,6 @@ namespace TextRPG.Utilities
 
                 return null;
             }
-
         }
         public void SaveObject(object obj)
         {
