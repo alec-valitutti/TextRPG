@@ -35,42 +35,42 @@ namespace TextRPG.Utilities
                 }
                 return result; }},
             { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return null;}},
-            {"Warrior",(player)=>
-                {   player._PlayerClass = "Warrior";
-                    player.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
-                    player.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
-                    player.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
-                    player.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
-                return player;
+            {"Warrior",(p)=>
+                {   p._PlayerClass = "Warrior";
+                    p.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
+                    p.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
+                    p.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
+                    p.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
+                return p;
                 }
             },
-            {"Mage",(player)=>
+            {"Mage",(p)=>
                 {
-                    player._PlayerClass = "Mage";
-                    player.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
-                    player.CurrentHelmet = new Armor("Cloth Robe", 1, ArmorType.Hat, Rarity.Common);
-                    player.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
-                    player.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
-                    player.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
-                    return player;
+                    p._PlayerClass = "Mage";
+                    p.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
+                    p.CurrentHelmet = new Armor("Cloth Robe", 1, ArmorType.Hat, Rarity.Common);
+                    p.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
+                    p.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
+                    p.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
+                    return p;
                 }
             },
-            {"Archer",(player)=>
+            {"Archer",(p)=>
                 {
-                    player._PlayerClass = "Archer";
-                    player.CurrentWeapon = new Weapon("Bow", 1, Rarity.Common);
-                    player.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
-                    player.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
-                    player.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
-                    return player;
+                    p._PlayerClass = "Archer";
+                    p.CurrentWeapon = new Weapon("Bow", 1, Rarity.Common);
+                    p.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
+                    p.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
+                    p.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
+                    return p;
                 }
             },
-            { "TestOption", (p)=>{Console.WriteLine("test"); return null; }},
+            { "TestOption", (p)=>{Console.WriteLine("test"); return p; }},
             { "Check Stats", (p)=>
-            { p.PrintPlayerInformation(); return null; } },
-            { "Explore",(p)=>{ Console.WriteLine("You explore..."); return null; } },
-            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return null; } },
-            { "Main Menu", (p)=>{ var x =new MainMenuState();x.EnterState(p); return null; } }
+            { p.PrintPlayerInformation(); return p; } },
+            { "Explore",(p)=>{ Console.WriteLine("You explore..."); return p; } },
+            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return p; } },
+            { "Main Menu", (p)=>{ var x =new MainMenuState();x.EnterState(p); return p; } }
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
         {
@@ -91,13 +91,50 @@ namespace TextRPG.Utilities
         }
         public Player GetInput(Player player)
         {
-            Console.ReadLine();
+            bool isTrue;
+            int result;
+            do
+            {
+                isTrue = int.TryParse(Console.ReadLine(), out result);
+                if (result > Options.Count)
+                {
+                    isTrue = false;
+                }
+                if (result < 0 || result == 0)
+                {
+                    isTrue = false;
+                }
+                if (!isTrue)
+                {
+                    Console.WriteLine("Please enter a valid input");
+                }
+            } while (!isTrue);
+            player = Functionality[Options[result - 1]].Invoke(player);
             return player;
         }
         public bool GetConditional()
         {
-            Console.ReadLine();
-            return true;
+            bool isTrue;
+            int result;
+            do
+            {
+                isTrue = int.TryParse(Console.ReadLine(), out result);
+                if (result > Options.Count)
+                {
+                    isTrue = false;
+                }
+                if (result < 0 || result == 0)
+                {
+                    isTrue = false;
+                }
+                if (!isTrue)
+                {
+                    Console.WriteLine("Please enter a valid input");
+                }
+
+            } while (!isTrue);
+
+            return Conditionals[Options[result - 1]].Invoke();
         }
         public void Quit(Player player)
         {

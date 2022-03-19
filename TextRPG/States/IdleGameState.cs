@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextRPG.Utilities;
 
 namespace TextRPG.States
 {
@@ -11,11 +12,11 @@ namespace TextRPG.States
             Console.WriteLine("Options:");
             return new List<string>() { "Explore", "Check Stats", "Use Item", "Main Menu" };
         }
-
         public override Player EnterState(Player player)
         {
-            Console.WriteLine("Entered Idle Game State");
-            return player;
+            Utility utility = new Utility();
+            utility.PrintInputOptions(AddOptions());
+            return utility.GetInput(player);
         }
     }
 }
