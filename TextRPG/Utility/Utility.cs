@@ -74,8 +74,9 @@ namespace TextRPG.Utilities
             { "Check Stats", (p)=>
             { p.PrintPlayerInformation(); return p; } },
             { "Explore",(p)=>{ Console.WriteLine("You explore..."); return p; } },
-            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility();
+            {"Items",(p)=>{ CharacterUtility characterUtility = new CharacterUtility();
                 characterUtility.PrintPlayerInventory(p);UseItemState uIS = new UseItemState(); p=uIS.EnterState(p); return p; } },
+            
             { "Main Menu", (p)=>{ var x =new MainMenuState();p=x.EnterState(p); return p; } },
             { "Options", (p)=>{ var x =new OptionsMenuState();p=x.EnterState(p); return p; } },
             { "Return", (p)=>{ return p; } }
@@ -112,6 +113,25 @@ namespace TextRPG.Utilities
             player = Functionality[Options[result - 1]].Invoke(player);
             return player;
         }
+        public Player GetInputForItemUse(Player player)
+        {
+            CharacterUtility characterUtility = new CharacterUtility();
+            bool isTrue;
+            int result;
+            do
+            {
+                isTrue = int.TryParse(Console.ReadLine(), out result);
+                if (result > Options.Count) isTrue = false;
+                if (result < 0 || result == 0) isTrue = false;
+                if (!isTrue) Console.WriteLine("Please enter a valid input");
+            } while (!isTrue);
+            if (Options[result-1]=="Return")
+            {
+                player = Functionality["Return"].Invoke(player);
+            }
+            characterUtility.UseItem(Options[result-1],player);
+            return player;
+        }
         public bool GetConditional()
         {
             bool isTrue;
@@ -128,18 +148,6 @@ namespace TextRPG.Utilities
         }
         public void Quit(Player player)
         {
-            try
-            {
-                if (player.Name == null)
-                {
-                    throw new Exception("Player was null");
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw new Exception("Could not save", e);
-            }
             Environment.Exit(0);
         }
         public bool IsValidString(string input, out string output)

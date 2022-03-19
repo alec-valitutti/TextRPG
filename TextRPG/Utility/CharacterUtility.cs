@@ -12,7 +12,7 @@ namespace TextRPG.Utilities
 {
     public class CharacterUtility
     {
-
+        public Func<string, Player, Player> UseItem = (i, p) => { p.UseItem(i); return p; };
         public Player CreateCharacter()
         {
             Utility utility = new Utility();

@@ -102,17 +102,20 @@ namespace TextRPG
             Console.Clear();
             //input
         }
-        public void UseItem()
+        public void UseItem(string input)
         {
             CharacterUtility characterUtility = new CharacterUtility();
             Utility utility = new Utility();
-            //print all items in inventory
-            //characterUtility.PrintPlayerInventory(this);
-            //take input
-            //utility.GetInput();
-            //Console.WriteLine(input);
-            //equip item/use item based on item type
-            //IF item was equppable and IF one was equipped store the 'unequipped' back in inventory
+            foreach (var item in Inventory)
+            {
+                if (item.Name == input)
+                {
+                    item.UseItem();
+                    Inventory.Remove(item);
+                    break;
+                }
+            }
+
         }
     }
 }

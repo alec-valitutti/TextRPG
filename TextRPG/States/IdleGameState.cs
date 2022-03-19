@@ -10,7 +10,7 @@ namespace TextRPG.States
         public override List<string> AddOptions()
         {
             Console.WriteLine("Options:");
-            return new List<string>() { "Explore", "Check Stats", "Use Item", "Options" };
+            return new List<string>() { "Explore", "Check Stats", "Items", "Options" };
         }
         public override Player EnterState(Player player)
         {
