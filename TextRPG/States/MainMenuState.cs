@@ -9,15 +9,14 @@ namespace TextRPG.States
     {
         public override List<string> AddOptions()
         {
-            return new List<string>() {"New Game","Load Game","Quit" };
+            Console.WriteLine("Options:");
+            return new List<string>() { "New Game", "Load Game", "Quit" };
         }
 
         public override Player EnterState(Player player)
         {
-            Utility utility = new Utility();
-            utility.PrintInputOptions(AddOptions());
-            return utility.GetInput(player);
-            
+            Util.PrintInputOptions(AddOptions());
+            return Util.GetInput(player);
         }
     }
 }

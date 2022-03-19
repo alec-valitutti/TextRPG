@@ -34,7 +34,8 @@ namespace TextRPG.Utilities
                     c.CreateCharacter();
                 }
                 return result; }},
-            { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return null;}},
+            { "Save Game", (p)=> {Utility u = new Utility();u.SaveObject(p);Console.WriteLine("Character Saved!"); return p;}},
+            { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return p;}},
             {"Warrior",(p)=>
                 {   p._PlayerClass = "Warrior";
                     p.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
@@ -69,8 +70,11 @@ namespace TextRPG.Utilities
             { "Check Stats", (p)=>
             { p.PrintPlayerInformation(); return p; } },
             { "Explore",(p)=>{ Console.WriteLine("You explore..."); return p; } },
-            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility(); characterUtility.PrintPlayerInventory(p); return p; } },
-            { "Main Menu", (p)=>{ var x =new MainMenuState();x.EnterState(p); return p; } }
+            {"Use Item",(p)=>{ CharacterUtility characterUtility = new CharacterUtility();
+                characterUtility.PrintPlayerInventory(p);UseItemState uIS = new UseItemState(); p=uIS.EnterState(p); return p; } },
+            { "Main Menu", (p)=>{ var x =new MainMenuState();p=x.EnterState(p); return p; } },
+            { "Options", (p)=>{ var x =new OptionsMenuState();p=x.EnterState(p); return p; } },
+            { "Return", (p)=>{ return p; } }
         };
         public Dictionary<string, Func<bool>> Conditionals { get; set; } = new Dictionary<string, Func<bool>>()
         {
@@ -100,6 +104,7 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
+            Console.Clear();
             player = Functionality[Options[result - 1]].Invoke(player);
             return player;
         }
@@ -114,17 +119,17 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
+            Console.Clear();
             return Conditionals[Options[result - 1]].Invoke();
         }
         public void Quit(Player player)
         {
             try
             {
-                if (player == null)
+                if (player.Name == null)
                 {
                     throw new Exception("Player was null");
                 }
-                //SaveObject(player); // dependency
             }
             catch (Exception e)
             {

@@ -8,11 +8,13 @@ namespace TextRPG.States
     {
         public override List<string> AddOptions()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Options:");
+            return new List<string>() { "Return" };
         }
         public override Player EnterState(Player player)
         {
-            throw new NotImplementedException();
+            Util.PrintInputOptions(AddOptions());
+            return Util.GetInput(player);
         }
     }
 }
