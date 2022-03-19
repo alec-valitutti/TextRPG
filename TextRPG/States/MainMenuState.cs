@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextRPG.Utilities;
 
 namespace TextRPG.States
 {
     class MainMenuState : BaseState
     {
-        
         public override List<string> AddOptions()
         {
             return new List<string>() {"New Game","Load Game","Quit" };
         }
 
-        public override void EnterState()
+        public override Player EnterState(Player player)
         {
-            State = "Main Menu";
-            //Console.WriteLine("Entered MainMenuState");
-            //Console.WriteLine("... configuring main menu options...");
+            Utility utility = new Utility();
+            utility.PrintInputOptions(AddOptions());
+            return utility.GetInput(player);
+            
         }
     }
 }

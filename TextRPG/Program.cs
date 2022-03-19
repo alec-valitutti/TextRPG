@@ -7,7 +7,7 @@ namespace TextRPG
         static void Main(string[] args)
         {
             Game game = new Game();
-            game.Play();
+            game.Gameplay();
         }
     }
 }

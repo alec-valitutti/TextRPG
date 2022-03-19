@@ -6,7 +6,7 @@ namespace TextRPG.Interfaces
 {
     public interface IGameState
     {
-        public void EnterState();
+        public Player EnterState(Player player);
         public List<string> AddOptions();
     }
 }
