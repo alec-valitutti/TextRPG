@@ -114,7 +114,6 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
-
             return Conditionals[Options[result - 1]].Invoke();
         }
         public void Quit(Player player)
