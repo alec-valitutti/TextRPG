@@ -72,7 +72,6 @@ namespace TextRPG
             utility.MessageEnder();
             characterUtility.PrintPlayerAmmunition(this);
             utility.MessageEnder();
-
         }
         public void LevelUp()
         {
@@ -109,7 +108,6 @@ namespace TextRPG
             Console.ReadKey();
             utility.SaveObject(this);
             Console.Clear();
-            //input
         }
         public void UseItem(string input)
         {
