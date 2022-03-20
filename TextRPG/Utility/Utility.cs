@@ -12,7 +12,7 @@ namespace TextRPG.Utilities
 {
     public class Utility : IUserInput
     {
-        public static string Path = "..\\..\\..\\";
+        public static string Path = "..\\..\\..\\Player\\";
         public List<string> Options { get; set; } = new List<string>();
         public Dictionary<string, Func<Player, Player>> Functionality { get; set; } = new Dictionary<string, Func<Player, Player>>()
         {
@@ -34,11 +34,11 @@ namespace TextRPG.Utilities
                     p=c.CreateCharacter();
                 }
                 return result; }},
-            { "Save Game", (p)=> {Utility u = new Utility();u.SaveObject(p);Console.WriteLine("Character Saved!"); return p;}},
+            { "Save Game", (p)=> {Utility u = new Utility();u.SavePlayer(p);Console.WriteLine("Character Saved!"); return p;}},
             { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return p;}},
             {"TESTCLASS",(p)=>
                 {   p._PlayerClass="TESTCLASS";
-                    p.Inventory.Add(new Item("Potion", Rarity.Legendary){ Quantity=2});
+                    p.Inventory.Add(new Consumeable("Potion", Rarity.Legendary){ Quantity=2});
                     p.Inventory.Add(new Weapon("Axe",9, Rarity.Unique));
                     return p; } },
             {"Warrior",(p)=>
@@ -47,7 +47,7 @@ namespace TextRPG.Utilities
                     p.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
                     p.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
-                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
+                    p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
                 return p;
                 }
             },
@@ -59,7 +59,7 @@ namespace TextRPG.Utilities
                     p.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
                     p.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
-                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
+                    p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
 
                     return p;
                 }
@@ -71,7 +71,7 @@ namespace TextRPG.Utilities
                     p.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
                     p.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
-                    p.Inventory.Add(new Item("Potion",Rarity.Legendary));
+                    p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
                     return p;
                 }
             },
@@ -81,7 +81,7 @@ namespace TextRPG.Utilities
             { "Explore",(p)=>{ Console.WriteLine("You explore..."); return p; } },
             {"Items",(p)=>{ CharacterUtility characterUtility = new CharacterUtility();
                 characterUtility.PrintPlayerInventory(p);UseItemState uIS = new UseItemState(); p=uIS.EnterState(p); return p; } },
-            
+
             { "Main Menu", (p)=>{ var x =new MainMenuState();p=x.EnterState(p); return p; } },
             { "Options", (p)=>{ var x =new OptionsMenuState();p=x.EnterState(p); return p; } },
             { "Level Up", (p)=>{p.LevelUp(); return p; } },
@@ -131,11 +131,11 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
-            if (Options[result-1]=="Return")
+            if (Options[result - 1] == "Return")
             {
                 player = Functionality["Return"].Invoke(player);
             }
-            characterUtility.UseItem(Options[result-1],player);
+            characterUtility.UseItem(Options[result - 1], player);
             return player;
         }
         public bool GetConditional()
@@ -172,15 +172,48 @@ namespace TextRPG.Utilities
         }
         public Player LoadPlayer()
         {
-            var _path = Path + "Player.json";
+            var _pPath = Path + "player.json";
+            var _cPath = Path + "consumeables.json";
+            var _wPath = Path + "weapons.json";
+            var _aPath = Path + "armors.json";
+            var _jPath = Path + "jewleries.json";
+            var json = "";
             try
             {
-                var json = "";
-                using (StreamReader sr = new StreamReader(_path))
+                using (StreamReader sr = new StreamReader(_pPath))
                 {
                     json = sr.ReadToEnd();
                 }
                 var player = JsonSerializer.Deserialize<Player>(json);
+                player.Inventory.Clear();
+                using (StreamReader sr = new StreamReader(_cPath))
+                {
+                    json = sr.ReadToEnd();
+                }
+                var consumeables = JsonSerializer.Deserialize<List<Consumeable>>(json);
+
+                using (StreamReader sr = new StreamReader(_wPath))
+                {
+                    json = sr.ReadToEnd();
+                }
+                var weapons = JsonSerializer.Deserialize<List<Weapon>>(json);
+
+                using (StreamReader sr = new StreamReader(_aPath))
+                {
+                    json = sr.ReadToEnd();
+                }
+                var armors = JsonSerializer.Deserialize<List<Armor>>(json);
+
+                using (StreamReader sr = new StreamReader(_jPath))
+                {
+                    json = sr.ReadToEnd();
+                }
+                var jewleries = JsonSerializer.Deserialize<List<Jewlery>>(json);
+
+                player.Inventory.AddRange(consumeables);
+                player.Inventory.AddRange(weapons);
+                player.Inventory.AddRange(armors);
+                player.Inventory.AddRange(jewleries);
                 return player;
             }
             catch (Exception)
@@ -189,17 +222,58 @@ namespace TextRPG.Utilities
                 return null;
             }
         }
-        public void SaveObject(object obj)
+        public void SavePlayer(Player p)
         {
-            if (obj == null)
+            List<Consumeable> consumeable = new List<Consumeable>();
+            List<Weapon> weapon = new List<Weapon>();
+            List<Armor> armor = new List<Armor>();
+            List<Jewlery> jewlery = new List<Jewlery>();
+            if (p == null)
             {
                 return;
             }
-            var _path = Path + obj.GetType().Name.ToString() + ".json";
+            //sort out inventory
+            foreach (var item in p.Inventory)
+            {
+                if (item is Consumeable) consumeable.Add((Consumeable)item);
+                if (item is Weapon) weapon.Add((Weapon)item);
+                if (item is Armor) armor.Add((Armor)item);
+                if (item is Jewlery) jewlery.Add((Jewlery)item);
+            }
+            //clear player inventory
+            //convert objects to json
+            var consumeables = JsonSerializer.Serialize(consumeable);
+            var weapons = JsonSerializer.Serialize(weapon);
+            var armors = JsonSerializer.Serialize(armor);
+            var jewleries = JsonSerializer.Serialize(jewlery);
+            //write player to json
+            string player = JsonSerializer.Serialize(p);
+            //add to string list
+            var _path = string.Empty;
+            _path = Path + $"{nameof(consumeables)}" + ".json";
             using (StreamWriter sw = new StreamWriter(_path))
             {
-                string json = JsonSerializer.Serialize(obj);
-                sw.Write(json);
+                sw.Write(consumeables);
+            }
+            _path = Path + $"{nameof(weapons)}" + ".json";
+            using (StreamWriter sw = new StreamWriter(_path))
+            {
+                sw.Write(weapons);
+            }
+            _path = Path + $"{nameof(armors)}" + ".json";
+            using (StreamWriter sw = new StreamWriter(_path))
+            {
+                sw.Write(armors);
+            }
+            _path = Path + $"{nameof(jewleries)}" + ".json";
+            using (StreamWriter sw = new StreamWriter(_path))
+            {
+                sw.Write(jewleries);
+            }
+            _path = Path + $"{nameof(player)}" + ".json";
+            using (StreamWriter sw = new StreamWriter(_path))
+            {
+                sw.Write(player);
             }
         }
         public void MessageEnder()

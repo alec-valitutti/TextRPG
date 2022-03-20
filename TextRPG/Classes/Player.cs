@@ -106,7 +106,7 @@ namespace TextRPG
             Console.WriteLine($"You've leveled up: {utility.Options[result-1]} to {Attributes[utility.Options[result - 1]]}");
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
-            utility.SaveObject(this);
+            utility.SavePlayer(this);
             Console.Clear();
         }
         public void UseItem(string input)

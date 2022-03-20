@@ -40,7 +40,7 @@ namespace TextRPG.Utilities
                 LevelPoints = 1
             };
             ChooseClass(player);
-            utility.SaveObject(player);
+            utility.SavePlayer(player);
             player.PrintPlayerInformation();
             return player;
         }
