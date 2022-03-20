@@ -31,7 +31,7 @@ namespace TextRPG.Utilities
                 {
                     Console.Clear();
                     Console.WriteLine("No save data found, creating new character:");
-                    c.CreateCharacter();
+                    p=c.CreateCharacter();
                 }
                 return result; }},
             { "Save Game", (p)=> {Utility u = new Utility();u.SaveObject(p);Console.WriteLine("Character Saved!"); return p;}},

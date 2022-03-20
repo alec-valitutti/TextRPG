@@ -132,7 +132,7 @@ namespace TextRPG.Utilities
             foreach (var item in player.Inventory)
             {
                 //Console.WriteLine($"-{item.Name}: {item.Quantity}");
-                utility.TextColorChanger(item);
+                utility.TextColorChanger(item.GetItem());
             }
             Console.ResetColor();
         }

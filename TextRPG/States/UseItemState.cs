@@ -13,7 +13,7 @@ namespace TextRPG.States
             var options = new List<string>();
             foreach (var item in Player.Inventory)
             {
-                options.Add(item.Name);
+                options.Add(item.GetName());
             }
             options.Add("Return");
             return options;

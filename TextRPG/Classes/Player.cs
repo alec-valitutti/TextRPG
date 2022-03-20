@@ -113,12 +113,12 @@ namespace TextRPG
         {
             foreach (var item in Inventory)
             {
-                if (item.Name == input)
+                if (item.GetName() == input)
                 {
-                    item.UseItem();
-                    if (item.Quantity > 1)
+                    item.UseItem(this);
+                    if (item.GetQuantity() > 1)
                     {
-                        item.Quantity--;
+                        item.IncrementQuantity(-1);
                     }
                     else
                     {
