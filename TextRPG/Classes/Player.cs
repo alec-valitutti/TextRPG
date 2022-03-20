@@ -93,10 +93,18 @@ namespace TextRPG
                 Console.WriteLine($"{count}: {item.Key} : {item.Value}");
                 count++;
             }
-            //LevelPoints -= 1;
-            //utility.GetInput(this);
-            Console.ReadKey();
-            Console.WriteLine("You've leveled up:");
+            bool isTrue;
+            int result;
+            do
+            {
+                isTrue = int.TryParse(Console.ReadLine(), out result);
+                if (result > utility.Options.Count) isTrue = false;
+                if (result < 0 || result == 0) isTrue = false;
+                if (!isTrue) Console.WriteLine("Please enter a valid input");
+            } while (!isTrue);
+            LevelPoints -= 1;
+            Attributes[utility.Options[result - 1]]++;
+            Console.WriteLine($"You've leveled up: {utility.Options[result-1]} to {Attributes[utility.Options[result - 1]]}");
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
             utility.SaveObject(this);
