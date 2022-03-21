@@ -311,11 +311,11 @@ namespace TextRPG.Utilities
             var print = "";
             if (item.Quantity > 1)
             {
-                print = $"{item.GetType().Name}: {item.Name} x {item.Quantity}";
+                print = $"{item.Name} x {item.Quantity}";
             }
             else
             {
-                print = $"{item.GetType().Name}: {item.Name}";
+                print = $"{item.Name}";
             }
             Console.WriteLine(print);
         }

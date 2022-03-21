@@ -17,7 +17,6 @@ namespace TextRPG.Items
         public virtual Player UseItem(Player player)
         {
             Console.WriteLine($"You used {Name}");
-            player.Inventory.Remove(this);
             return player;
         }
         public string GetName()
@@ -37,6 +36,5 @@ namespace TextRPG.Items
         {
             return this;
         }
-        //How do I let items have unique functionality without having to write an action for each item?
     }
 }

@@ -9,7 +9,6 @@ namespace TextRPG.States
         internal Player Player;
         public override List<string> AddOptions()
         {
-            Console.WriteLine("Options:");
             var options = new List<string>();
             foreach (var item in Player.Inventory)
             {
@@ -21,8 +20,16 @@ namespace TextRPG.States
         public override Player EnterState(Player player)
         {
             Player = player;
-            Util.PrintInputOptions(AddOptions());
-            player = Util.GetInputForItemUse(player);
+            if (player.Inventory.Count > 0)
+            {
+                Util.PrintInputOptions(AddOptions());
+                player = Util.GetInputForItemUse(player);
+            }
+            else
+            {
+                Console.WriteLine("You have no items:");
+                Util.MessageEnder();
+            }
             return player;
         }
     }
