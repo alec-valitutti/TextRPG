@@ -168,7 +168,6 @@ namespace TextRPG.Utilities
 
         }
         public Player LoadPlayer()
-
         {
             var _pPath = Path + "player.json";
             var json = "";

@@ -4,9 +4,10 @@ using System.Text;
 
 namespace TextRPG.States
 {
-    class UseItemState : BaseState
+    public class UseItemState : BaseState
     {
-        internal Player Player;
+        public UseItemState() { }
+        public UseItemState(Player player) : base(player) { }
         public override List<string> AddOptions()
         {
             var options = new List<string>();

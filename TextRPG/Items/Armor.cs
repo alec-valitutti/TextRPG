@@ -15,4 +15,12 @@
             }
         }
     }
+    public enum ArmorType
+    {
+        Helmet,
+        Hat,
+        Body,
+        Legs,
+        Boots
+    }
 }

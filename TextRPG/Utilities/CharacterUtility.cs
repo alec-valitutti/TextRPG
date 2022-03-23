@@ -15,8 +15,11 @@ namespace TextRPG.Utilities
         public Func<string, Player, Player> UseItem = (i, p) => { p.UseItem(i); return p; };
         public Func<Player, Player> Return = (p) => { return p; };
         public List<string> Options { get; set; } = new List<string>();
+        public static string Path = "..\\..\\..\\Player\\";
+
         public Player CreateCharacter()
         {
+            /*This is going to be a mess to unit test - needs to be rewritten*/
             Utility utility = new Utility();
             var _player = utility.LoadPlayer();
             if (_player != null)
@@ -32,7 +35,7 @@ namespace TextRPG.Utilities
                 }
             }
             Console.WriteLine("What would you like to name your character?");
-            string name = "";
+            string name;
             while (!utility.IsValidString(Console.ReadLine(), out name))
             {
                 Console.WriteLine("Please enter a valid name:");
@@ -41,17 +44,18 @@ namespace TextRPG.Utilities
             {
                 LevelPoints = 1
             };
-            ChooseClass(player);
+            player = ChooseClass(player);
             utility.SavePlayer(player);
             player.PrintPlayerInformation();
             return player;
         }
-        public void ChooseClass(Player player)
+        public Player ChooseClass(Player player)
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
             utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer", "TESTCLASS" });
             utility.GetInput(player);
+            return player;
 
         }
         public void PrintPlayerEquipment(Player player)
