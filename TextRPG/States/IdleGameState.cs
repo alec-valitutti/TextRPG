@@ -7,7 +7,8 @@ namespace TextRPG.States
 {
     class IdleGameState : BaseState
     {
-        internal Player Player;
+        public IdleGameState() { }
+        public IdleGameState(Player player) { Player = player ?? throw new ArgumentNullException(nameof(player)); }
         public override List<string> AddOptions()
         {
             Console.WriteLine("Options:");
