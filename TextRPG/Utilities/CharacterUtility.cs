@@ -13,6 +13,8 @@ namespace TextRPG.Utilities
     public class CharacterUtility
     {
         public Func<string, Player, Player> UseItem = (i, p) => { p.UseItem(i); return p; };
+        public Func<Player, Player> Return = (p) => { return p; };
+        public List<string> Options { get; set; } = new List<string>();
         public Player CreateCharacter()
         {
             Utility utility = new Utility();
@@ -48,7 +50,7 @@ namespace TextRPG.Utilities
         {
             Utility utility = new Utility();
             Console.WriteLine("What class would you like to be:");
-            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer","TESTCLASS" });
+            utility.PrintInputOptions(new List<string>() { "Warrior", "Mage", "Archer", "TESTCLASS" });
             utility.GetInput(player);
 
         }
@@ -141,8 +143,26 @@ namespace TextRPG.Utilities
             Console.WriteLine("Here is your gold:");
             Console.WriteLine($"-Gold: {player.Gold}");
         }
+        public Player GetInputForItemUse(Player player)
+        {
+            bool isTrue;
+            int result;
+            do
+            {
+                isTrue = int.TryParse(Console.ReadLine(), out result);
+                if (result > Options.Count) isTrue = false;
+                if (result < 0 || result == 0) isTrue = false;
+                if (!isTrue) Console.WriteLine("Please enter a valid input");
+            } while (!isTrue);
+            if (Options[result - 1] == "Return")
+            {
+                player = Return.Invoke(player);
+            }
+            UseItem(Options[result - 1], player);
+            return player;
+        }
     }
-    public enum CharacterFunctions 
+    public enum CharacterFunctions
     {
         UseItem,
         HealPlayer,

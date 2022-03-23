@@ -30,6 +30,11 @@ namespace TextRPG
         public List<Item> Inventory { get; set; } = new List<Item>();
         public List<Projectile> Ammunition { get; set; } = new List<Projectile>();
         public int Gold { get; set; } = 0;
+        public List<Consumeable> consumeables { get; set; } = new List<Consumeable>();
+        public List<Weapon> weapons { get; set; } = new List<Weapon>();
+        public List<Armor> armors { get; set; } = new List<Armor>();
+        public List<Jewlery> jewleries { get; set; } = new List<Jewlery>();
+
         public Dictionary<string, int> Attributes { get; set; } = new Dictionary<string, int>()
         {
             {"Vigor", 0},

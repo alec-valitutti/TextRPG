@@ -23,7 +23,8 @@ namespace TextRPG.States
             if (player.Inventory.Count > 0)
             {
                 Util.PrintInputOptions(AddOptions());
-                player = Util.GetInputForItemUse(player);
+                CharacterUtil.Options.AddRange(AddOptions());
+                player = CharacterUtil.GetInputForItemUse(player);
             }
             else
             {

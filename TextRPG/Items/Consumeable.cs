@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TextRPG.Items
 {
-    class Consumeable : Item
+    public class Consumeable : Item
     {
         public Consumeable() { }
         public Consumeable(string name, Rarity rarity) : base(name, rarity)

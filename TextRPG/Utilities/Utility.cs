@@ -10,7 +10,7 @@ using TextRPG.States;
 
 namespace TextRPG.Utilities
 {
-    public class Utility : IUserInput
+    public class Utility
     {
         public static string Path = "..\\..\\..\\Player\\";
         public List<string> Options { get; set; } = new List<string>();
@@ -115,27 +115,7 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
-            Console.Clear();
             player = Functionality[Options[result - 1]].Invoke(player);
-            return player;
-        }
-        public Player GetInputForItemUse(Player player)
-        {
-            CharacterUtility characterUtility = new CharacterUtility();
-            bool isTrue;
-            int result;
-            do
-            {
-                isTrue = int.TryParse(Console.ReadLine(), out result);
-                if (result > Options.Count) isTrue = false;
-                if (result < 0 || result == 0) isTrue = false;
-                if (!isTrue) Console.WriteLine("Please enter a valid input");
-            } while (!isTrue);
-            if (Options[result - 1] == "Return")
-            {
-                player = Functionality["Return"].Invoke(player);
-            }
-            characterUtility.UseItem(Options[result - 1], player);
             return player;
         }
         public bool GetConditional()
@@ -149,11 +129,28 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
-            Console.Clear();
             return Conditionals[Options[result - 1]].Invoke();
         }
         public void Quit(Player player)
         {
+            try
+            {
+                if (player != null)
+                {
+                    if (LoadPlayer() != player)
+                    {
+                        SavePlayer(player);
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Could not save player before quitting", e);
+            }
             Environment.Exit(0);
         }
         public bool IsValidString(string input, out string output)
@@ -171,12 +168,9 @@ namespace TextRPG.Utilities
 
         }
         public Player LoadPlayer()
+
         {
             var _pPath = Path + "player.json";
-            var _cPath = Path + "consumeables.json";
-            var _wPath = Path + "weapons.json";
-            var _aPath = Path + "armors.json";
-            var _jPath = Path + "jewleries.json";
             var json = "";
             try
             {
@@ -185,35 +179,16 @@ namespace TextRPG.Utilities
                     json = sr.ReadToEnd();
                 }
                 var player = JsonSerializer.Deserialize<Player>(json);
+                //These could be rewritten somethwere
                 player.Inventory.Clear();
-                using (StreamReader sr = new StreamReader(_cPath))
-                {
-                    json = sr.ReadToEnd();
-                }
-                var consumeables = JsonSerializer.Deserialize<List<Consumeable>>(json);
-
-                using (StreamReader sr = new StreamReader(_wPath))
-                {
-                    json = sr.ReadToEnd();
-                }
-                var weapons = JsonSerializer.Deserialize<List<Weapon>>(json);
-
-                using (StreamReader sr = new StreamReader(_aPath))
-                {
-                    json = sr.ReadToEnd();
-                }
-                var armors = JsonSerializer.Deserialize<List<Armor>>(json);
-
-                using (StreamReader sr = new StreamReader(_jPath))
-                {
-                    json = sr.ReadToEnd();
-                }
-                var jewleries = JsonSerializer.Deserialize<List<Jewlery>>(json);
-
-                player.Inventory.AddRange(consumeables);
-                player.Inventory.AddRange(weapons);
-                player.Inventory.AddRange(armors);
-                player.Inventory.AddRange(jewleries);
+                player.Inventory.AddRange(player.consumeables);
+                player.Inventory.AddRange(player.weapons);
+                player.Inventory.AddRange(player.armors);
+                player.Inventory.AddRange(player.jewleries);
+                player.consumeables.Clear();
+                player.weapons.Clear();
+                player.armors.Clear();
+                player.jewleries.Clear();
                 return player;
             }
             catch (Exception)
@@ -224,10 +199,7 @@ namespace TextRPG.Utilities
         }
         public void SavePlayer(Player p)
         {
-            List<Consumeable> consumeable = new List<Consumeable>();
-            List<Weapon> weapon = new List<Weapon>();
-            List<Armor> armor = new List<Armor>();
-            List<Jewlery> jewlery = new List<Jewlery>();
+            /*Would be nice to figure out how to generically save any object like i had before*/
             if (p == null)
             {
                 return;
@@ -235,42 +207,15 @@ namespace TextRPG.Utilities
             //sort out inventory
             foreach (var item in p.Inventory)
             {
-                if (item is Consumeable) consumeable.Add((Consumeable)item);
-                if (item is Weapon) weapon.Add((Weapon)item);
-                if (item is Armor) armor.Add((Armor)item);
-                if (item is Jewlery) jewlery.Add((Jewlery)item);
+                if (item is Consumeable) p.consumeables.Add((Consumeable)item);
+                if (item is Weapon) p.weapons.Add((Weapon)item);
+                if (item is Armor) p.armors.Add((Armor)item);
+                if (item is Jewlery) p.jewleries.Add((Jewlery)item);
             }
-            //clear player inventory
-            //convert objects to json
-            var consumeables = JsonSerializer.Serialize(consumeable);
-            var weapons = JsonSerializer.Serialize(weapon);
-            var armors = JsonSerializer.Serialize(armor);
-            var jewleries = JsonSerializer.Serialize(jewlery);
             //write player to json
             string player = JsonSerializer.Serialize(p);
             //add to string list
-            var _path = string.Empty;
-            _path = Path + $"{nameof(consumeables)}" + ".json";
-            using (StreamWriter sw = new StreamWriter(_path))
-            {
-                sw.Write(consumeables);
-            }
-            _path = Path + $"{nameof(weapons)}" + ".json";
-            using (StreamWriter sw = new StreamWriter(_path))
-            {
-                sw.Write(weapons);
-            }
-            _path = Path + $"{nameof(armors)}" + ".json";
-            using (StreamWriter sw = new StreamWriter(_path))
-            {
-                sw.Write(armors);
-            }
-            _path = Path + $"{nameof(jewleries)}" + ".json";
-            using (StreamWriter sw = new StreamWriter(_path))
-            {
-                sw.Write(jewleries);
-            }
-            _path = Path + $"{nameof(player)}" + ".json";
+            var _path = Path + $"{nameof(player)}" + ".json";
             using (StreamWriter sw = new StreamWriter(_path))
             {
                 sw.Write(player);
@@ -278,10 +223,10 @@ namespace TextRPG.Utilities
         }
         public void MessageEnder()
         {
+            /*I may get rid of this method because I don't like that I call this to clear after certain input*/
             Console.WriteLine("_______________________");
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
-            Console.Clear();
+            Console.WriteLine("Enter any key to continue:");
+            Console.ReadLine();
         }
         public void TextColorChanger(Item item)
         {
