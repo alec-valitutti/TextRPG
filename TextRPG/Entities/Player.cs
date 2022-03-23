@@ -112,7 +112,6 @@ namespace TextRPG
             Console.WriteLine("Press any key to continue:");
             Console.ReadKey();
             utility.SavePlayer(this);
-            Console.Clear();
         }
         public void UseItem(string input)
         {
