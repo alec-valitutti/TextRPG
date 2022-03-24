@@ -109,8 +109,7 @@ namespace TextRPG
             LevelPoints -= 1;
             Attributes[utility.Options[result - 1]]++;
             Console.WriteLine($"You've leveled up: {utility.Options[result-1]} to {Attributes[utility.Options[result - 1]]}");
-            Console.WriteLine("Press any key to continue:");
-            Console.ReadKey();
+            utility.MessageEnder();
             utility.SavePlayer(this);
         }
         public void UseItem(string input)
@@ -120,6 +119,8 @@ namespace TextRPG
                 if (item.GetName() == input)
                 {
                     item.UseItem(this);
+                    Utility utility = new Utility();
+                    utility.MessageEnder();
                     if (item.GetQuantity() > 1)
                     {
                         item.IncrementQuantity(-1);

@@ -25,7 +25,7 @@ namespace TextRPG.States
             {
                 Util.PrintInputOptions(AddOptions());
                 CharacterUtil.Options.AddRange(AddOptions());
-                player = CharacterUtil.GetInputForItemUse(player);
+                player = CharacterUtil.GetInput(player);
             }
             else
             {

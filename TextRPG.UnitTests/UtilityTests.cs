@@ -101,7 +101,7 @@ namespace TextRPG.UnitTests
                     Sut.Options.Add("Yes");
                     Sut.Options.Add("No");
 
-                    var result = Sut.GetConditional();
+                    var result = Sut.GetInput();
 
                     Assert.IsTrue(result);
                 }
@@ -117,7 +117,7 @@ namespace TextRPG.UnitTests
             Sut.Options.Add("Yes");
             Sut.Options.Add("No");
 
-            var result = Sut.GetConditional();
+            var result = Sut.GetInput();
 
             Assert.IsFalse(result);
         }

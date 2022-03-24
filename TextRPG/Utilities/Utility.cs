@@ -115,10 +115,11 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
+            if (!Console.IsOutputRedirected) Console.Clear();
             player = Functionality[Options[result - 1]].Invoke(player);
             return player;
         }
-        public bool GetConditional()
+        public bool GetInput()
         {
             bool isTrue;
             int result;
@@ -129,7 +130,9 @@ namespace TextRPG.Utilities
                 if (result < 0 || result == 0) isTrue = false;
                 if (!isTrue) Console.WriteLine("Please enter a valid input");
             } while (!isTrue);
+            if (!Console.IsOutputRedirected) Console.Clear();
             return Conditionals[Options[result - 1]].Invoke();
+
         }
         public void Quit(Player player)
         {
@@ -226,6 +229,8 @@ namespace TextRPG.Utilities
             Console.WriteLine("_______________________");
             Console.WriteLine("Enter any key to continue:");
             Console.ReadLine();
+            if (!Console.IsOutputRedirected) Console.Clear();
+
         }
         public void TextColorChanger(Item item)
         {

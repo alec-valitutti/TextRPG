@@ -178,7 +178,7 @@ namespace TextRPG.UnitTests
             Console.SetOut(sw);
             TestPlayer.Inventory.Add(TestItem);
             Sut.Options.AddRange(UseItemGameState.AddOptions());
-            var result = Sut.GetInputForItemUse(TestPlayer);
+            var result = Sut.GetInput(TestPlayer);
             Assert.IsTrue(!result.Inventory.Contains(TestItem));
         }
         #endregion

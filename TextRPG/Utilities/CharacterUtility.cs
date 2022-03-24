@@ -26,7 +26,7 @@ namespace TextRPG.Utilities
             {
                 Console.WriteLine("You already have a character created, do you want to overwrite it?");
                 utility.PrintInputOptions(new List<string>() { "Yes", "No" });
-                var isTrue = utility.GetConditional();
+                var isTrue = utility.GetInput();
                 if (!isTrue)
                 {
                     Console.WriteLine("Loading character:");
@@ -147,7 +147,7 @@ namespace TextRPG.Utilities
             Console.WriteLine("Here is your gold:");
             Console.WriteLine($"-Gold: {player.Gold}");
         }
-        public Player GetInputForItemUse(Player player)
+        public Player GetInput(Player player)
         {
             bool isTrue;
             int result;
@@ -163,6 +163,7 @@ namespace TextRPG.Utilities
                 player = Return.Invoke(player);
             }
             UseItem(Options[result - 1], player);
+            if (!Console.IsOutputRedirected) Console.Clear();
             return player;
         }
     }
