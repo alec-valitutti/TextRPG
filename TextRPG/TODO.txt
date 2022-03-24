@@ -1,5 +1,4 @@
-﻿figure out deserialization of abilities classes
-	-done
+﻿
 
 items class
 	*how to use items and how they affect player
@@ -8,46 +7,18 @@ resistances
 	-added to attribute dictionary
 	*needs game implementation
 
-enemies
-	*need scaling feature
-		*damage
-		*health
-		*level
-		*resistances
-			*fire
-			*cold
-			*lightning
-		*item drops
-			*gold
-			*current equipped
-			*search option?
-
-levels?
-	-added levels,experience, and level points
-	*Leveling up
-
-Attributes?
-	-Added Attributes
-	-added resistances
-
 How do attributes build your player stats?
 	-added level points
 	*add to custom class build
 	*add to level up
+____________________________________________________________________
+
+_____________________________________________________________________
+
+_____________________________________________________________________
+
+_____________________________________________________________________
+Need a way to see how much damage your character will do??
 
 write custom exceptions
 	*need exceptions
-	
-player classes
-	-implement Player set-up based on class selection
-		-item allocation
-		*stat allocation
-		-inventory allocation
-
-____________________________________________________________________
-Flesh out enemy class
-flesh out enemy creation
-_____________________________________________________________________
-I want to make a program state machine so that I dont have to pass in potential parameters for the options - done
-_____________________________________________________________________
-Need a way to see how much damage your character will do??
