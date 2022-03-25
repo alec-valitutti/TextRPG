@@ -13,9 +13,9 @@ namespace TextRPG
     public class Player : IPlayer
     {
         public string Name { get; set; }
-        public string _PlayerClass { get; set; } = "Human";
+        public string Class { get; set; } = "Human";
         public int Hitpoints { get; set; }
-        public int MaxHitpoints { get; set; }
+        public double MaxHitpoints => CalculateMaxHealth();
         public int Level { get; set; } = 0;
         public float Experience { get; set; } = 0;
         public int LevelPoints { get; set; } = 0;
@@ -30,20 +30,20 @@ namespace TextRPG
         public List<Item> Inventory { get; set; } = new List<Item>();
         public List<Projectile> Ammunition { get; set; } = new List<Projectile>();
         public int Gold { get; set; } = 0;
-        public List<Consumeable> consumeables { get; set; } = new List<Consumeable>();
-        public List<Weapon> weapons { get; set; } = new List<Weapon>();
-        public List<Armor> armors { get; set; } = new List<Armor>();
-        public List<Jewlery> jewleries { get; set; } = new List<Jewlery>();
+        public List<Consumeable> Consumeables { get; set; } = new List<Consumeable>();
+        public List<Weapon> Weapons { get; set; } = new List<Weapon>();
+        public List<Armor> Armors { get; set; } = new List<Armor>();
+        public List<Jewlery> Jewleries { get; set; } = new List<Jewlery>();
 
         public Dictionary<string, int> Attributes { get; set; } = new Dictionary<string, int>()
         {
-            {"Vigor", 0},
-            {"Endurance", 0},
-            {"Strength", 0},
-            {"Agility", 0},
-            {"Cold Resistance", 0},
-            {"Fire Resistance", 0},
-            {"Lightning Resistance", 0}
+            {"Vigor", 1},
+            {"Endurance", 1},
+            {"Strength", 1},
+            {"Agility", 1},
+            {"Cold Resistance", 1},
+            {"Fire Resistance", 1},
+            {"Lightning Resistance",1}
         };
         public Player()
         {
@@ -53,7 +53,6 @@ namespace TextRPG
         {
             Name = name;
             Hitpoints = 10;
-            MaxHitpoints = Hitpoints;
         }
         public void Attack(Enemy enemy)
         {
@@ -108,7 +107,7 @@ namespace TextRPG
             } while (!isTrue);
             LevelPoints -= 1;
             Attributes[utility.Options[result - 1]]++;
-            Console.WriteLine($"You've leveled up: {utility.Options[result-1]} to {Attributes[utility.Options[result - 1]]}");
+            Console.WriteLine($"You've leveled up: {utility.Options[result - 1]} to {Attributes[utility.Options[result - 1]]}");
             utility.MessageEnder();
             utility.SavePlayer(this);
         }
@@ -132,6 +131,11 @@ namespace TextRPG
                     break;
                 }
             }
+        }
+        public double CalculateMaxHealth()
+        {
+            var result = 10 + Attributes["Vigor"];
+            return result;
         }
     }
 }

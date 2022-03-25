@@ -53,7 +53,7 @@ namespace TextRPG.UnitTests
             Console.SetIn(sr);
             Console.SetOut(sw);
             var result = Sut.ChooseClass(TestPlayer);
-            Assert.IsTrue(result._PlayerClass == expected);
+            Assert.IsTrue(result.Class == expected);
         }
         #endregion
         #region PrintPlayerEquipment

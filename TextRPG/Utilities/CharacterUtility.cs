@@ -103,7 +103,7 @@ namespace TextRPG.Utilities
             Console.WriteLine($"Health: {player.Hitpoints}");
             Console.WriteLine($"Level Points: {player.LevelPoints}");
             Console.WriteLine($"Experience Points: {player.Experience}");
-            Console.WriteLine($"Class: {player._PlayerClass}");
+            Console.WriteLine($"Class: {player.Class}");
         }
         public void PrintPlayerAmmunition(Player player)
         {

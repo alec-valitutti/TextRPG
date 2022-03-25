@@ -12,9 +12,16 @@ How do attributes build your player stats?
 	*add to custom class build
 	*add to level up
 ____________________________________________________________________
-
+What do the different stats do?
+vigor- how much bonus health do you have
+endurance- how far can you travel before needing rest
+strength - how much can you carry - how strong are you
+agility - how quickly can you travel - how can you navigate your surroundings
+cold resistance - how resistant to cold environments are you
+fire resistance - how resistant to heat are you
+lightning resistance - how resistant to lightning are you
 _____________________________________________________________________
-this should go away
+
 _____________________________________________________________________
 
 _____________________________________________________________________

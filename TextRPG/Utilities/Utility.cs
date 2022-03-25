@@ -37,12 +37,12 @@ namespace TextRPG.Utilities
             { "Save Game", (p)=> {Utility u = new Utility();u.SavePlayer(p);Console.WriteLine("Character Saved!"); return p;}},
             { "Quit", (p)=> {Utility u = new Utility();u.Quit(p); return p;}},
             {"TESTCLASS",(p)=>
-                {   p._PlayerClass="TESTCLASS";
+                {   p.Class="TESTCLASS";
                     p.Inventory.Add(new Consumeable("Potion", Rarity.Legendary){ Quantity=2});
                     p.Inventory.Add(new Weapon("Axe",9, Rarity.Unique));
                     return p; } },
             {"Warrior",(p)=>
-                {   p._PlayerClass = "Warrior";
+                {   p.Class = "Warrior";
                     p.CurrentWeapon = new Weapon("Sword", 3, Rarity.Common);
                     p.CurrentHelmet = new Armor("Helmet", 1, ArmorType.Helmet, Rarity.Common);
                     p.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
@@ -53,7 +53,7 @@ namespace TextRPG.Utilities
             },
             {"Mage",(p)=>
                 {
-                    p._PlayerClass = "Mage";
+                    p.Class = "Mage";
                     p.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
                     p.CurrentHelmet = new Armor("Cloth Robe", 1, ArmorType.Hat, Rarity.Common);
                     p.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
@@ -66,7 +66,7 @@ namespace TextRPG.Utilities
             },
             {"Archer",(p)=>
                 {
-                    p._PlayerClass = "Archer";
+                    p.Class = "Archer";
                     p.CurrentWeapon = new Weapon("Bow", 1, Rarity.Common);
                     p.Ammunition.Add(new Projectile("Arrow", 25, "Wooden", Rarity.Common));
                     p.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
@@ -183,14 +183,14 @@ namespace TextRPG.Utilities
                 var player = JsonSerializer.Deserialize<Player>(json);
                 //These could be rewritten somethwere
                 player.Inventory.Clear();
-                player.Inventory.AddRange(player.consumeables);
-                player.Inventory.AddRange(player.weapons);
-                player.Inventory.AddRange(player.armors);
-                player.Inventory.AddRange(player.jewleries);
-                player.consumeables.Clear();
-                player.weapons.Clear();
-                player.armors.Clear();
-                player.jewleries.Clear();
+                player.Inventory.AddRange(player.Consumeables);
+                player.Inventory.AddRange(player.Weapons);
+                player.Inventory.AddRange(player.Armors);
+                player.Inventory.AddRange(player.Jewleries);
+                player.Consumeables.Clear();
+                player.Weapons.Clear();
+                player.Armors.Clear();
+                player.Jewleries.Clear();
                 return player;
             }
             catch (Exception)
@@ -209,19 +209,17 @@ namespace TextRPG.Utilities
             //sort out inventory
             foreach (var item in p.Inventory)
             {
-                if (item is Consumeable) p.consumeables.Add((Consumeable)item);
-                if (item is Weapon) p.weapons.Add((Weapon)item);
-                if (item is Armor) p.armors.Add((Armor)item);
-                if (item is Jewlery) p.jewleries.Add((Jewlery)item);
+                if (item is Consumeable c) p.Consumeables.Add(c);
+                if (item is Weapon w) p.Weapons.Add(w);
+                if (item is Armor a) p.Armors.Add(a);
+                if (item is Jewlery j) p.Jewleries.Add(j);
             }
             //write player to json
             string player = JsonSerializer.Serialize(p);
             //add to string list
             var _path = Path + $"{nameof(player)}" + ".json";
-            using (StreamWriter sw = new StreamWriter(_path))
-            {
-                sw.Write(player);
-            }
+            using StreamWriter sw = new StreamWriter(_path);
+            sw.Write(player);
         }
         public void MessageEnder()
         {
@@ -230,7 +228,6 @@ namespace TextRPG.Utilities
             Console.WriteLine("Enter any key to continue:");
             Console.ReadLine();
             if (!Console.IsOutputRedirected) Console.Clear();
-
         }
         public void TextColorChanger(Item item)
         {
@@ -257,7 +254,7 @@ namespace TextRPG.Utilities
                     break;
             }
             //write item
-            var print = "";
+            string print;
             if (item.Quantity > 1)
             {
                 print = $"{item.Name} x {item.Quantity}";
