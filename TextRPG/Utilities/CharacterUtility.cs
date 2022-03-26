@@ -100,7 +100,8 @@ namespace TextRPG.Utilities
             Console.WriteLine("Here is your character:");
             Console.WriteLine($"Name: {player.Name}");
             Console.WriteLine($"Level: {player.Level}");
-            Console.WriteLine($"Health: {player.Hitpoints}");
+            Console.WriteLine($"Health: {player.Hitpoints}/{player.MaxHitpoints}");
+            Console.WriteLine($"Damage: {player.CalculatedDamage}");
             Console.WriteLine($"Level Points: {player.LevelPoints}");
             Console.WriteLine($"Experience Points: {player.Experience}");
             Console.WriteLine($"Class: {player.Class}");

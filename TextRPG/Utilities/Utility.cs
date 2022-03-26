@@ -40,6 +40,7 @@ namespace TextRPG.Utilities
                 {   p.Class="TESTCLASS";
                     p.Inventory.Add(new Consumeable("Potion", Rarity.Legendary){ Quantity=2});
                     p.Inventory.Add(new Weapon("Axe",9, Rarity.Unique));
+                    p.Update();
                     return p; } },
             {"Warrior",(p)=>
                 {   p.Class = "Warrior";
@@ -48,19 +49,21 @@ namespace TextRPG.Utilities
                     p.CurrentBody = new Armor("Chainmail", 2, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leggings", 1, ArmorType.Legs, Rarity.Common);
                     p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
+                    p.Update();
                 return p;
                 }
             },
             {"Mage",(p)=>
                 {
                     p.Class = "Mage";
+                    p.CurrentWeapon = new Weapon("Staff", 1, Rarity.Common);
                     p.Abilities.Add(new Ability() { Name = "Fireball", Damage = 2, Cost = 1, _Rarity = Rarity.Uncommon });
                     p.CurrentHelmet = new Armor("Cloth Robe", 1, ArmorType.Hat, Rarity.Common);
                     p.CurrentBody = new Armor("Cloth Robe", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Cloth Robe", 1, ArmorType.Legs, Rarity.Common);
                     p.CurrentRing = new Jewlery("Ring", Rarity.Uncommon);
                     p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
-
+                    p.Update();
                     return p;
                 }
             },
@@ -72,6 +75,7 @@ namespace TextRPG.Utilities
                     p.CurrentBody = new Armor("Leather", 1, ArmorType.Body, Rarity.Common);
                     p.CurrentLegs = new Armor("Leather", 1, ArmorType.Legs, Rarity.Common);
                     p.Inventory.Add(new Consumeable("Potion",Rarity.Legendary));
+                    p.Update();
                     return p;
                 }
             },
@@ -117,6 +121,7 @@ namespace TextRPG.Utilities
             } while (!isTrue);
             if (!Console.IsOutputRedirected) Console.Clear();
             player = Functionality[Options[result - 1]].Invoke(player);
+            
             return player;
         }
         public bool GetInput()
@@ -191,11 +196,11 @@ namespace TextRPG.Utilities
                 player.Weapons.Clear();
                 player.Armors.Clear();
                 player.Jewleries.Clear();
+                player.Update();
                 return player;
             }
             catch (Exception)
             {
-
                 return null;
             }
         }

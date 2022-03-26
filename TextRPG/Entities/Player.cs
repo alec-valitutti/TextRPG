@@ -15,7 +15,8 @@ namespace TextRPG
         public string Name { get; set; }
         public string Class { get; set; } = "Human";
         public int Hitpoints { get; set; }
-        public double MaxHitpoints => CalculateMaxHealth();
+        public int MaxHitpoints => CalculateMaxHealth();
+        public double CalculatedDamage { get; set; }
         public int Level { get; set; } = 0;
         public float Experience { get; set; } = 0;
         public int LevelPoints { get; set; } = 0;
@@ -34,12 +35,11 @@ namespace TextRPG
         public List<Weapon> Weapons { get; set; } = new List<Weapon>();
         public List<Armor> Armors { get; set; } = new List<Armor>();
         public List<Jewlery> Jewleries { get; set; } = new List<Jewlery>();
-
         public Dictionary<string, int> Attributes { get; set; } = new Dictionary<string, int>()
         {
             {"Vigor", 1},
             {"Endurance", 1},
-            {"Strength", 1},
+            {"Strength", 10},
             {"Agility", 1},
             {"Cold Resistance", 1},
             {"Fire Resistance", 1},
@@ -47,12 +47,11 @@ namespace TextRPG
         };
         public Player()
         {
-
         }
         public Player(string name)
         {
             Name = name;
-            Hitpoints = 10;
+            Hitpoints = MaxHitpoints;
         }
         public void Attack(Enemy enemy)
         {
@@ -132,10 +131,20 @@ namespace TextRPG
                 }
             }
         }
-        public double CalculateMaxHealth()
+        public int CalculateMaxHealth()
         {
-            var result = 10 + Attributes["Vigor"];
+            var result = 10 + (Attributes["Vigor"] * 2);
             return result;
+        }
+        public double CalculateDamage()
+        {
+            var result = CurrentWeapon.DamageValue + ((CurrentWeapon.DamageValue / 2) * (Math.Log(Attributes["Strength"] + 1)));
+            result = Math.Floor(result);
+            return result;
+        }
+        public void Update()
+        {
+            CalculatedDamage = CalculateDamage();
         }
     }
 }
