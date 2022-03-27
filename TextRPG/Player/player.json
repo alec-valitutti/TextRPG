@@ -1,1 +1,95 @@
-{"Name":"1","Class":"Archer","Hitpoints":12,"MaxHitpoints":12,"CalculatedDamage":1,"Level":0,"Experience":0,"LevelPoints":1,"CurrentWeapon":{"DamageValue":1,"Name":"Bow","Quantity":1,"_Rarity":0},"CurrentHelmet":{"ArmorValue":0,"ArmorPiece":0,"Name":"Nothing","Quantity":0,"_Rarity":0},"CurrentBody":{"ArmorValue":1,"ArmorPiece":2,"Name":"Leather Body","Quantity":1,"_Rarity":0},"CurrentLegs":{"ArmorValue":1,"ArmorPiece":3,"Name":"Leather Legs","Quantity":1,"_Rarity":0},"CurrentBoots":{"ArmorValue":0,"ArmorPiece":0,"Name":"Nothing","Quantity":0,"_Rarity":0},"CurrentAmulet":{"Name":"Nothing","Quantity":0,"_Rarity":0},"CurrentRing":{"Name":"Nothing","Quantity":0,"_Rarity":0},"Abilities":[],"Inventory":[{"Name":"Potion","Quantity":1,"_Rarity":4}],"Ammunition":[{"DamageMultiplier":1,"Type":"Wooden","Name":"Wooden Arrow","Quantity":25,"_Rarity":0}],"Gold":0,"Consumeables":[{"Name":"Potion","Quantity":1,"_Rarity":4}],"Weapons":[],"Armors":[],"Jewleries":[],"Attributes":{"Vigor":1,"Endurance":1,"Strength":10,"Agility":1,"Cold Resistance":1,"Fire Resistance":1,"Lightning Resistance":1}}
+{
+  "Name": "123qds",
+  "Class": "TESTCLASS",
+  "Hitpoints": 12,
+  "MaxHitpoints": 12,
+  "CalculatedDamage": 1,
+  "Level": 0,
+  "Experience": 0,
+  "LevelPoints": 1,
+  "CurrentWeapon": {
+    "DamageValue": 1,
+    "Name": "Nothing",
+    "Quantity": 1,
+    "_Rarity": 0
+  },
+  "CurrentHelmet": {
+    "ArmorValue": 0,
+    "ArmorPiece": 0,
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "CurrentBody": {
+    "ArmorValue": 0,
+    "ArmorPiece": 0,
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "CurrentLegs": {
+    "ArmorValue": 0,
+    "ArmorPiece": 0,
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "CurrentBoots": {
+    "ArmorValue": 0,
+    "ArmorPiece": 0,
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "CurrentAmulet": {
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "CurrentRing": {
+    "Name": "Nothing",
+    "Quantity": 0,
+    "_Rarity": 0
+  },
+  "Abilities": [],
+  "Inventory": [
+    {
+      "Name": "Potion",
+      "Quantity": 2,
+      "_Rarity": 4
+    },
+    {
+      "Name": "Axe",
+      "Quantity": 1,
+      "_Rarity": 3
+    }
+  ],
+  "Ammunition": [],
+  "Gold": 0,
+  "Consumeables": [
+    {
+      "Name": "Potion",
+      "Quantity": 2,
+      "_Rarity": 4
+    }
+  ],
+  "Weapons": [
+    {
+      "DamageValue": 9,
+      "Name": "Axe",
+      "Quantity": 1,
+      "_Rarity": 3
+    }
+  ],
+  "Armors": [],
+  "Jewleries": [],
+  "Attributes": {
+    "Vigor": 1,
+    "Endurance": 1,
+    "Strength": 1,
+    "Agility": 1,
+    "Cold Resistance": 1,
+    "Fire Resistance": 1,
+    "Lightning Resistance": 1
+  }
+}

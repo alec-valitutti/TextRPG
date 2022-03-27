@@ -47,11 +47,13 @@ namespace TextRPG
         };
         public Player()
         {
+            Update();
         }
         public Player(string name)
         {
             Name = name;
             Hitpoints = MaxHitpoints;
+            Update();
         }
         public void Attack(Enemy enemy)
         {
@@ -130,21 +132,23 @@ namespace TextRPG
                     break;
                 }
             }
+            Update();
         }
         public int CalculateMaxHealth()
         {
             var result = 10 + (Attributes["Vigor"] * 2);
             return result;
         }
-        public double CalculateDamage()
+        public double CalculateStat(int x, int y)
         {
-            var result = CurrentWeapon.DamageValue + ((CurrentWeapon.DamageValue / 2) * (Math.Log(Attributes["Strength"] + 1)));
+            var result = x + ((x / 2) * (Math.Log(y + 1)));
             result = Math.Floor(result);
             return result;
         }
         public void Update()
         {
-            CalculatedDamage = CalculateDamage();
+            var result = CalculateStat(CurrentWeapon.DamageValue,Attributes["Strength"]);
+            CalculatedDamage = (double)result;
         }
     }
 }
