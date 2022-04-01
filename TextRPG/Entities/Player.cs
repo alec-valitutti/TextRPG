@@ -39,7 +39,7 @@ namespace TextRPG
         {
             {"Vigor", 1},
             {"Endurance", 1},
-            {"Strength", 10},
+            {"Strength", 1},
             {"Agility", 1},
             {"Cold Resistance", 1},
             {"Fire Resistance", 1},
@@ -63,6 +63,7 @@ namespace TextRPG
         {
             CharacterUtility characterUtility = new CharacterUtility();
             Utility utility = new Utility();
+            Update();
             characterUtility.PrintPlayerStatistics(this);
             utility.MessageEnder();
             characterUtility.PrintPlayerEquipment(this);

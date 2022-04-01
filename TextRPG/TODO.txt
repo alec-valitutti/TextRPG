@@ -1,12 +1,11 @@
-﻿
-
+﻿____________________________________________________________________
 items class
-	*how to use items and how they affect player
-
+	*What does using an item do to the player
+____________________________________________________________________
 resistances
 	-added to attribute dictionary
 	*needs game implementation
-
+____________________________________________________________________
 How do attributes build your player stats?
 	-added level points
 	*add to custom class build
@@ -25,7 +24,5 @@ _____________________________________________________________________
 _____________________________________________________________________
 
 _____________________________________________________________________
-Need a way to see how much damage your character will do??
-
 write custom exceptions
 	*need exceptions
